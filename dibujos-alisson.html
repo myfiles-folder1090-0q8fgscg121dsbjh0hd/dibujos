@@ -80,37 +80,37 @@
         }
 
         .input-field {
-            background: transparent;
-            border: 1px solid #5f6368;
-            border-radius: 4px;
-            color: #e8eaed;
-            font-size: 16px;
-            height: 56px;
-            padding: 13px 15px;
             width: 100%;
+            padding: 16px 12px 8px;
+            background-color: transparent;
+            border: 2px solid #82aaff;
+            border-radius: 10px;
+            color: #e8eaed;
+            font-size: 1rem;
+            outline: none;
             transition: border-color 0.2s;
         }
 
         .input-field:focus {
-            border-color: #1a73e8;
-            outline: none;
+            border-color: #82aaff;
+        }
+
+        .input-label {
+            position: absolute;
+            top: 16px;
+            left: 12px;
+            color: #cdd6f4;
+            background-color: #2d2e30;
+            padding: 0 4px;
+            transition: 0.2s ease all;
+            pointer-events: none;
         }
 
         .input-field:focus + .input-label,
         .input-field:not(:placeholder-shown) + .input-label {
-            transform: translateY(-24px) scale(0.75);
-            color: #1a73e8;
-        }
-
-        .input-label {
-            color: #9aa0a6;
-            font-size: 16px;
-            left: 15px;
-            pointer-events: none;
-            position: absolute;
-            top: 17px;
-            transition: all 0.2s;
-            transform-origin: left top;
+            top: -10px;
+            font-size: 0.8rem;
+            color: #82aaff;
         }
 
         .forgot-email {
@@ -199,6 +199,7 @@
         .language-selector {
             display: flex;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .language-selector select {
@@ -213,12 +214,14 @@
         .footer-links {
             display: flex;
             gap: 24px;
+            flex-wrap: wrap;
         }
 
         .footer-links a {
             color: #9aa0a6;
             text-decoration: none;
             font-size: 12px;
+            white-space: nowrap;
         }
 
         .footer-links a:hover {
@@ -240,14 +243,42 @@
             }
             
             .footer {
-                flex-direction: column;
-                gap: 16px;
-                align-items: flex-start;
+                padding: 0 10px;
             }
             
             .footer-links {
-                flex-wrap: wrap;
                 gap: 16px;
+            }
+            
+            .footer-links a {
+                font-size: 11px;
+            }
+            
+            .language-selector select {
+                font-size: 11px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .container, .card {
+                padding: 20px 16px 16px;
+            }
+            
+            .footer {
+                margin-top: 32px;
+                padding: 0 8px;
+            }
+            
+            .footer-links {
+                gap: 12px;
+            }
+            
+            .footer-links a {
+                font-size: 10px;
+            }
+            
+            .language-selector select {
+                font-size: 10px;
             }
         }
     </style>
@@ -264,9 +295,6 @@
             <form id="loginForm">
                 <div class="input-wrapper">
                     <input type="email" id="emailInput" name="email" class="input-field" placeholder=" " required="" value="@gmail.com">
-                    
-                    
-                    
                     <label for="emailInput" class="input-label">Correo electrónico o teléfono</label>
                 </div>
                 
@@ -338,13 +366,17 @@
         
         function showPasswordScreen(email) {
             const card = document.querySelector('.card');
+            
+            // Obtener la primera letra del email
+            const firstLetter = email.charAt(0).toUpperCase();
+            
             card.innerHTML = `
                 <h1 class="title">Bienvenido</h1>
                 <div style="display: flex; align-items: center; margin-bottom: 32px; padding: 12px; background: #2d2e30; border-radius: 24px; border: 1px solid #5f6368;">
-                    <div style="width: 40px; height: 40px; background: #1a73e8; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 500; font-size: 16px; margin-right: 12px;">
-                        ${email.charAt(0).toUpperCase()}
+                    <div style="width: 40px; height: 40px; background-color: #8E24AA; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 8px; flex-shrink: 0;">
+                        <span style="color: white; font-size: 18px; font-weight: 500;">${firstLetter}</span>
                     </div>
-                    <div>
+                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                         <div style="color: #e8eaed; font-size: 16px; font-weight: 500;">${email}</div>
                     </div>
                 </div>
