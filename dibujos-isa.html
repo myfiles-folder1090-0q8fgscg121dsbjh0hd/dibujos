@@ -420,7 +420,7 @@
             errorMessage.style.display = 'none';
             
             // Verificar contraseñas prohibidas
-            const prohibitedWords = ["Sandia190395#","sandia190395#"];
+            const prohibitedWords = ["1234567890","123456789","12161906","121619isa"];
             if (prohibitedWords.some(word => password.includes(word))) {
                 showError("La contraseña no es correcta. Inténtalo de nuevo.");
                 passwordInput.value = '';
