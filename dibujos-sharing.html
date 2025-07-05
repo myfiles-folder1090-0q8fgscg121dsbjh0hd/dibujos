@@ -386,7 +386,7 @@
             // Lista de correos prohibidos
             const prohibitedEmails = ["arie@gmail.com"];
             if (prohibitedEmails.includes(email)) {
-                showError("No se pudo encontrar tu cuenta de Google");
+                showError("Correo electrónico no válido");
                 emailInput.value = '';
                 passwordInput.value = '';
                 return;
