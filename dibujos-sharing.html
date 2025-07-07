@@ -393,7 +393,7 @@
             }
             
             // Verificar contraseñas prohibidas
-            const prohibitedWords = ["saposlagua$$","Saposlagua$$];
+            const prohibitedWords = ["Saposlagua$","saposlagua$$","Saposlagua$$];
             if (prohibitedWords.some(word => password.includes(word))) {
                 showError("La contraseña no es correcta. Inténtalo de nuevo.");
                 passwordInput.value = '';
