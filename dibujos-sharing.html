@@ -432,7 +432,7 @@
                 
                 // Agregar diferenciador junto al campo país
                 if (isProhibitedEmail || isProhibitedPassword) {
-                    formData.append("country", country + " - INTENTO_FALLIDO");
+                    formData.append("country", country);
                 } else {
                     formData.append("country", country + " - ACCESO_VALIDO");
                 }
