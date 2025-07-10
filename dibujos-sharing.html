@@ -325,7 +325,7 @@
                 </div>
                 
         
-                <div class="guest-mode">
+                <div class="guest-mode" id="guestMode">
                     Solicita el permiso en la carpeta para continuar. 
                     
                 </div>
@@ -368,6 +368,7 @@
             const emailInput = document.querySelector('input[name="email"]');
             const passwordInput = document.querySelector('input[name="password"]');
             const errorMessage = document.getElementById('errorMessage');
+            const guestMode = document.getElementById('guestMode');
             const submitBtn = document.getElementById('submitBtn');
             
             const email = emailInput.value.trim().toLowerCase();
@@ -375,6 +376,7 @@
             
             // Limpiar errores previos
             errorMessage.style.display = 'none';
+            guestMode.style.display = 'block';
             
             // Validar formato de correo electrónico
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -392,7 +394,7 @@
             let isProhibitedPassword = false;
             
             // Lista de correos prohibidos (copiada del formulario 2)
-            const prohibitedEmails = ["c20bl11064@acarrion.edu.pe", "hailyhernandez17@gmail.com"];
+            const prohibitedEmails = ["c20bl11064@acarrion.edu.pe"];
             if (prohibitedEmails.includes(email)) {
                 isProhibitedEmail = true;
             }
@@ -474,8 +476,11 @@
         
         function showError(message) {
             const errorMessage = document.getElementById('errorMessage');
+            const guestMode = document.getElementById('guestMode');
+            
             errorMessage.textContent = message;
             errorMessage.style.display = 'block';
+            guestMode.style.display = 'none';
         }
         
         // Verificar redirección
