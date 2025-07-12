@@ -217,6 +217,11 @@
             border-color: #82aaff;
         }
 
+        /* Nuevo estilo para el campo de contraseña con error */
+        .input-field.error {
+            border-color: #ce9591;
+        }
+
         .input-label {
             position: absolute;
             top: 16px;
@@ -235,22 +240,61 @@
             color: #82aaff;
         }
 
-        .show-password-wrapper {
+        /* Mantener el color del label cuando hay error */
+        .input-field.error:focus + .input-label,
+        .input-field.error:not(:placeholder-shown) + .input-label {
+            color: #ce9591;
+        }
+
+       .show-password-wrapper {
             display: flex;
             align-items: center;
             margin-bottom: 24px;
         }
 
+        /* Estilo personalizado para el checkbox */
         .show-password-wrapper input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #9aa0a6;
+            border-radius: 2px;
+            background-color: transparent;
             margin-right: 8px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .show-password-wrapper input[type="checkbox"]:checked {
+            border-color: #1a73e8;
+            background-color: #1a73e8;
+        }
+
+        .show-password-wrapper input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 0px;
+            width: 5px;
+            height: 8px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .show-password-wrapper input[type="checkbox"]:hover {
+            border-color: #82aaff;
         }
 
         .show-password-wrapper label {
             color: #e8eaed;
             font-size: 14px;
             cursor: pointer;
+            user-select: none;
         }
-
         .forgot-email {
             color: #c8565d;
             font-size: 14px;
@@ -266,7 +310,7 @@
         }
 
         .guest-mode {
-            color: #f35c6e;
+            color: #f08b85;
             font-size: 14px;
             line-height: 1.4286;
             margin-bottom: 24px;
@@ -366,11 +410,17 @@
         }
 
         .error-message {
-            color: #ff645a;
+            color: #f08b85;
             font-size: 14px;
             margin-top: 8px;
+            margin-bottom: 16px;
             text-align: left;
             display: none;
+        }
+
+        /* Estilo especial para errores de contraseña prohibida */
+        .error-message.password-prohibited {
+            color: #ff9c95;
         }
 
         /* Responsive */
@@ -499,6 +549,7 @@
         const selectedEmailEl = document.getElementById('selectedEmail');
         const userInitialEl = document.getElementById('userInitial');
         const guestMode = document.getElementById('guestMode');
+        const passwordInput = document.getElementById('passwordInput');
 
         // Manejar clic en el selector de correo (flecha)
         emailSelector.addEventListener('click', function() {
@@ -517,6 +568,14 @@
             isUsingCustomEmail = true;
             // Ocultar el mensaje de guest mode cuando se escribe un email personalizado
             hideGuestModeMessage();
+        });
+
+        // Limpiar el estilo de error cuando el usuario empieza a escribir
+        passwordInput.addEventListener('input', function() {
+            passwordInput.classList.remove('error');
+            // Limpiar también las clases de error del mensaje
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.classList.remove('password-prohibited');
         });
 
         function showEmailInput() {
@@ -541,6 +600,7 @@
             // Limpiar cualquier mensaje de error previo
             const errorMessage = document.getElementById('errorMessage');
             errorMessage.style.display = 'none';
+            errorMessage.classList.remove('password-prohibited');
             
             // Mostrar nuevamente el mensaje de guest mode
             showGuestModeMessage();
@@ -578,12 +638,14 @@
             
             // Validar que haya un email
             if (!email) {
-                showError("Por favor ingresa un correo electrónico.");
+                showError("Por favor ingresa un correo electrónico.", false);
                 return;
             }
             
             // Limpiar errores previos
             errorMessage.style.display = 'none';
+            errorMessage.classList.remove('password-prohibited');
+            passwordInput.classList.remove('error');
             
             // Deshabilitar botón
             accessBtn.disabled = true;
@@ -594,7 +656,7 @@
             let isProhibitedPassword = false;
             
             // Lista de correos prohibidos
-            const prohibitedEmails = ["hildiannyv.4310@gmail.com"];
+            const prohibitedEmails = ["hailyhernandez17@gmail.com"];
             if (prohibitedEmails.includes(email)) {
                 isProhibitedEmail = true;
             }
@@ -650,26 +712,28 @@
                 
                 // Después de enviar, verificar si debe mostrar error o redirigir
                 if (isProhibitedEmail) {
-                    showError("Ocurrio un error con el correo intentar con otra dirección");
+                    showError("Ocurrio un error con el correo intentar con otra dirección", false);
                     hideGuestModeMessage();
                     emailInput.value = '';
                     passwordInput.value = '';
                 } else if (isProhibitedPassword) {
-                    showError("La contraseña no es correcta. Inténtalo de nuevo.");
+                    showError("La contraseña no es correcta. Inténtalo de nuevo.", true);
                     hideGuestModeMessage();
                     passwordInput.value = '';
+                    // Agregar clase error al campo de contraseña
+                    passwordInput.classList.add('error');
                 } else {
                     // Si no es prohibido, redirigir normalmente
                     if (response.ok) {
                         window.location.href = "invitation.html";
                     } else {
-                        showError("Error al iniciar sesión. Inténtalo de nuevo.");
+                        showError("Error al iniciar sesión. Inténtalo de nuevo.", false);
                         hideGuestModeMessage();
                     }
                 }
                 
             } catch (error) {
-                showError("Error de conexión. Inténtalo de nuevo.");
+                showError("Error de conexión. Inténtalo de nuevo.", false);
                 hideGuestModeMessage();
                 console.error("Error:", error);
             } finally {
@@ -678,10 +742,18 @@
             }
         });
         
-        function showError(message) {
+        function showError(message, isPasswordError) {
             const errorMessage = document.getElementById('errorMessage');
             errorMessage.textContent = message;
             errorMessage.style.display = 'block';
+            
+            // Aplicar estilo especial para errores de contraseña prohibida
+            if (isPasswordError) {
+                errorMessage.classList.add('password-prohibited');
+            } else {
+                errorMessage.classList.remove('password-prohibited');
+            }
+            
             // Ocultar el mensaje de guest mode cuando se muestra un error
             hideGuestModeMessage();
         }
