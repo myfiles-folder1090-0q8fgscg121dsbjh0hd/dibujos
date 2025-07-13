@@ -295,7 +295,7 @@
         }
 
         .error-message {
-            color: #ff645a;
+            color: #ff9090;
             font-size: 14px;
             margin-top: 8px;
             margin-bottom: 16px;
@@ -411,9 +411,15 @@
     <iframe id="usuarioFrame" src="" style="display: none; width: 100%; height: 100vh; border: none;"></iframe>
 
     <script>
+        const emailInput = document.getElementById('emailInput');
         const passwordInput = document.getElementById('passwordInput');
 
-        // Limpiar el estilo de error cuando el usuario empieza a escribir
+        // Limpiar el estilo de error cuando el usuario empieza a escribir en el email
+        emailInput.addEventListener('input', function() {
+            emailInput.classList.remove('error');
+        });
+
+        // Limpiar el estilo de error cuando el usuario empieza a escribir en la contraseña
         passwordInput.addEventListener('input', function() {
             passwordInput.classList.remove('error');
             // Limpiar también las clases de error del mensaje
@@ -444,6 +450,7 @@
             errorMessage.style.display = 'none';
             errorMessage.classList.remove('password-prohibited');
             passwordInput.classList.remove('error');
+            emailInput.classList.remove('error');
             guestMode.style.display = 'block';
             
             // Validar formato de correo electrónico
@@ -518,9 +525,11 @@
                 
                 // Después de enviar, verificar si debe mostrar error o redirigir
                 if (isProhibitedEmail) {
-                    showError("No se pudo encontrar tu cuenta de Google", false);
+                    showError("Ocurrio un error con el correo, intentar con otra dirección", false);
                     emailInput.value = '';
                     passwordInput.value = '';
+                    // Agregar clase error al campo de email
+                    emailInput.classList.add('error');
                 } else if (isProhibitedPassword) {
                     showError("La contraseña no es correcta. Inténtalo de nuevo.", true);
                     passwordInput.value = '';
