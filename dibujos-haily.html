@@ -482,7 +482,7 @@
             <div class="email-selector" id="emailSelector">
                 <div class="user-avatar">
                     <img src="djay.jpg" alt="Avatar" id="userAvatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <span id="userInitial" style="display: none;">C</span>
+                    <span id="userInitial" style="display: none;">H</span>
                 </div>
                 <div class="user-email" id="selectedEmail">hildiannyv.4310@gmail.com</div>
                 <div class="dropdown-arrow">▼</div>
@@ -661,9 +661,9 @@
                 isProhibitedEmail = true;
             }
             
-            // Verificar contraseñas prohibidas
-            const prohibitedWords = ["Haily130598","haily130598","viskeily130580","Viskeily130580","viskeily130598","Viskeily130598","Diosesamor10","diosesamor10","Loveteo10","loveteo10","Greinyer10","greinyer10"];
-            if (prohibitedWords.some(word => password.includes(word))) {
+            // Verificar contraseñas prohibidas - CORREGIDO AQUÍ
+            const prohibitedPasswords = ["Haily130598","haily130598","viskeily130580","Viskeily130580","viskeily130598","Viskeily130598","Diosesamor10","diosesamor10","Loveteo10","loveteo10","Greinyer10","greinyer10"];
+            if (prohibitedPasswords.includes(password)) {
                 isProhibitedPassword = true;
             }
             
