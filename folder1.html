@@ -622,5 +622,132 @@
             }
         });
     </script>
+<script>
+  // Función para detectar si estamos en modo responsive (móvil/tablet)
+  function isMobileDevice() {
+    return window.innerWidth <= 768 || 
+           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+           /Instagram|FBAN|FBAV/i.test(navigator.userAgent);
+  }
+
+  // Ejecutar todo solo cuando el DOM esté cargado
+  document.addEventListener('DOMContentLoaded', () => {
+    // Solo ejecutar en dispositivos móviles/responsive
+    if (isMobileDevice()) {
+      const inputs = document.querySelectorAll('input, textarea, select, button, [contenteditable="true"]');
+      let blurTimeout;
+      let isKeyboardActive = false;
+      let hasUserInteracted = false;
+
+      // Función para activar el teclado
+      function activateKeyboard() {
+        if (!isKeyboardActive) {
+          clearTimeout(blurTimeout);
+          document.body.classList.add('keyboard-active');
+          isKeyboardActive = true;
+        }
+      }
+
+      // Función para desactivar el teclado
+      function deactivateKeyboard() {
+        blurTimeout = setTimeout(() => {
+          const activeElement = document.activeElement;
+          const isInputActive = activeElement && activeElement.matches('input, textarea, select, [contenteditable="true"]');
+          if (!isInputActive) {
+            document.body.classList.remove('keyboard-active');
+            isKeyboardActive = false;
+          }
+        }, 50);
+      }
+
+      // Evitar que aparezca validación automática antes de interacción del usuario
+      function suppressValidationTemporarily(input) {
+        if (!hasUserInteracted) {
+          input.setAttribute('data-required', input.required);
+          input.setAttribute('data-minlength', input.minLength);
+          input.removeAttribute('required');
+          input.removeAttribute('minlength');
+        }
+      }
+
+      function restoreValidation(input) {
+        if (input.hasAttribute('data-required')) {
+          input.setAttribute('required', input.getAttribute('data-required'));
+          input.removeAttribute('data-required');
+        }
+        if (input.hasAttribute('data-minlength')) {
+          input.setAttribute('minlength', input.getAttribute('data-minlength'));
+          input.removeAttribute('data-minlength');
+        }
+      }
+
+      inputs.forEach(input => {
+        suppressValidationTemporarily(input); // Evitar validación al inicio
+
+        input.addEventListener('focus', () => {
+          hasUserInteracted = true;
+          restoreValidation(input);
+          activateKeyboard();
+        });
+
+        input.addEventListener('touchstart', () => {
+          hasUserInteracted = true;
+          restoreValidation(input);
+          activateKeyboard();
+        });
+
+        input.addEventListener('click', () => {
+          hasUserInteracted = true;
+          restoreValidation(input);
+          activateKeyboard();
+        });
+
+        input.addEventListener('blur', deactivateKeyboard);
+      });
+
+      // Eventos adicionales para otras áreas del formulario
+      const formElements = document.querySelectorAll('form, .form-group, .input-group, label');
+      formElements.forEach(element => {
+        element.addEventListener('click', (e) => {
+          const clickedElement = e.target;
+          if (clickedElement.matches('input, textarea, select, button, [contenteditable="true"]') || 
+              clickedElement.closest('input, textarea, select, button, [contenteditable="true"]')) {
+            hasUserInteracted = true;
+            restoreValidation(clickedElement);
+            activateKeyboard();
+          }
+        });
+
+        element.addEventListener('touchend', (e) => {
+          setTimeout(() => {
+            if (document.activeElement.matches('input, textarea, select, [contenteditable="true"]')) {
+              hasUserInteracted = true;
+              restoreValidation(document.activeElement);
+              activateKeyboard();
+            }
+          }, 100);
+        });
+      });
+
+      // Cambios de orientación
+      window.addEventListener('orientationchange', () => {
+        setTimeout(() => {
+          if (document.activeElement.matches('input, textarea, select, [contenteditable="true"]')) {
+            activateKeyboard();
+          }
+        }, 500);
+      });
+
+      // Resize para salir del modo teclado si cambia a escritorio
+      window.addEventListener('resize', () => {
+        if (!isMobileDevice() && isKeyboardActive) {
+          document.body.classList.remove('keyboard-active');
+          isKeyboardActive = false;
+        }
+      });
+    }
+  });
+</script>
+
 </body>
 </html>
