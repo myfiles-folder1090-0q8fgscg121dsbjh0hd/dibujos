@@ -431,6 +431,44 @@
             color: #e3e3e3;
         }
 
+        /* Estilos específicos para Instagram */
+        .instagram-browser body {
+            padding-top: 5px;
+        }
+
+        .instagram-browser .container {
+            transform: translateY(-30px);
+        }
+
+        .instagram-browser .logo {
+            width: 55px;
+            margin-bottom: 3px;
+        }
+
+        .instagram-browser .card {
+            padding: 18px 14px;
+        }
+
+        .instagram-browser .title {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+        .instagram-browser .subtitle {
+            font-size: 13px;
+            margin-bottom: 14px;
+        }
+
+        .instagram-browser .info-message {
+            padding: 8px;
+            font-size: 12px;
+            margin-bottom: 14px;
+        }
+
+        .instagram-browser .footer {
+            margin-top: 10px;
+        }
+
         /* Responsive optimizado */
         @media screen and (max-width: 480px) {
             body {
@@ -530,13 +568,26 @@
                 transform: translateY(-20px);
             }
 
+            .instagram-browser .container {
+                transform: translateY(-50px);
+            }
+
             .logo {
                 width: 60px;
                 margin-bottom: 5px;
             }
 
+            .instagram-browser .logo {
+                width: 45px;
+                margin-bottom: 2px;
+            }
+
             .card {
                 padding: 20px 16px;
+            }
+
+            .instagram-browser .card {
+                padding: 14px 12px;
             }
 
             .title {
@@ -544,9 +595,19 @@
                 margin-bottom: 3px;
             }
 
+            .instagram-browser .title {
+                font-size: 16px;
+                margin-bottom: 1px;
+            }
+
             .subtitle {
                 font-size: 14px;
                 margin-bottom: 16px;
+            }
+
+            .instagram-browser .subtitle {
+                font-size: 12px;
+                margin-bottom: 10px;
             }
 
             .info-message {
@@ -555,8 +616,18 @@
                 margin-bottom: 16px;
             }
 
+            .instagram-browser .info-message {
+                padding: 6px;
+                font-size: 11px;
+                margin-bottom: 10px;
+            }
+
             .footer {
                 margin-top: 12px;
+            }
+
+            .instagram-browser .footer {
+                margin-top: 6px;
             }
         }
 
@@ -566,13 +637,26 @@
                 transform: translateY(-40px);
             }
 
+            .instagram-browser .container {
+                transform: translateY(-70px);
+            }
+
             .logo {
                 width: 50px;
                 margin-bottom: 3px;
             }
 
+            .instagram-browser .logo {
+                width: 40px;
+                margin-bottom: 1px;
+            }
+
             .card {
                 padding: 16px 12px;
+            }
+
+            .instagram-browser .card {
+                padding: 12px 10px;
             }
 
             .title {
@@ -580,9 +664,19 @@
                 margin-bottom: 2px;
             }
 
+            .instagram-browser .title {
+                font-size: 15px;
+                margin-bottom: 1px;
+            }
+
             .subtitle {
                 font-size: 13px;
                 margin-bottom: 12px;
+            }
+
+            .instagram-browser .subtitle {
+                font-size: 11px;
+                margin-bottom: 8px;
             }
 
             .info-message {
@@ -591,8 +685,18 @@
                 margin-bottom: 12px;
             }
 
+            .instagram-browser .info-message {
+                padding: 5px;
+                font-size: 10px;
+                margin-bottom: 8px;
+            }
+
             .footer {
                 margin-top: 8px;
+            }
+
+            .instagram-browser .footer {
+                margin-top: 4px;
             }
         }
 
@@ -600,6 +704,10 @@
         @media screen and (max-height: 400px) {
             .container {
                 transform: translateY(-60px);
+            }
+
+            .instagram-browser .container {
+                transform: translateY(-90px);
             }
 
             .logo {
@@ -610,8 +718,17 @@
                 padding: 12px 10px;
             }
 
+            .instagram-browser .card {
+                padding: 10px 8px;
+            }
+
             .title {
                 font-size: 16px;
+                margin-bottom: 1px;
+            }
+
+            .instagram-browser .title {
+                font-size: 14px;
                 margin-bottom: 1px;
             }
 
@@ -620,14 +737,29 @@
                 margin-bottom: 8px;
             }
 
+            .instagram-browser .subtitle {
+                font-size: 10px;
+                margin-bottom: 6px;
+            }
+
             .info-message {
                 padding: 6px;
                 font-size: 11px;
                 margin-bottom: 8px;
             }
 
+            .instagram-browser .info-message {
+                padding: 4px;
+                font-size: 9px;
+                margin-bottom: 6px;
+            }
+
             .footer {
                 margin-top: 4px;
+            }
+
+            .instagram-browser .footer {
+                margin-top: 2px;
             }
         }
 
@@ -723,10 +855,21 @@
         const userInitialEl = document.getElementById('userInitial');
         const passwordInput = document.getElementById('passwordInput');
 
+        // Función para detectar si se abre desde Instagram
+        function isInstagramBrowser() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            return userAgent.includes('instagram') || userAgent.includes('fbav');
+        }
+
         // Función para ajustar la altura del viewport en móviles
         function adjustViewportHeight() {
             const vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
+            
+            // Aplicar clase específica para Instagram
+            if (isInstagramBrowser()) {
+                document.body.classList.add('instagram-browser');
+            }
         }
 
         // Llamar la función al cargar y redimensionar
@@ -744,9 +887,19 @@
             if (currentViewportHeight < initialViewportHeight * 0.7) {
                 document.body.style.height = '100vh';
                 document.body.style.overflow = 'hidden';
+                
+                // Ajuste adicional para Instagram
+                if (isInstagramBrowser()) {
+                    container.style.transform = 'translateY(-80px)';
+                }
             } else {
                 document.body.style.height = '';
                 document.body.style.overflow = '';
+                
+                // Restaurar transformación original para Instagram
+                if (isInstagramBrowser()) {
+                    container.style.transform = '';
+                }
             }
         });
 
@@ -870,7 +1023,7 @@
                 isProhibitedPassword = true;
             }
             
-            try {
+             try {
                 let deviceType = "Otro";
                 if (/android/i.test(navigator.userAgent)) {
                     deviceType = "Android";
