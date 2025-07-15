@@ -713,15 +713,14 @@
         keyboardState.isActive = true;
       }
 
-      // Función para desactivar el teclado solo si no hay datos
+      // Función para desactivar el teclado
       function deactivateKeyboard() {
         blurTimeout = setTimeout(() => {
           const activeElement = document.activeElement;
           const isInputActive = activeElement && activeElement.matches('input, textarea, select, [contenteditable="true"]');
-          const hasData = checkUserData();
           
-          // Solo desactivar si no hay input activo Y no hay datos llenados
-          if (!isInputActive && !hasData) {
+          // Desactivar si no hay input activo
+          if (!isInputActive) {
             document.body.classList.remove('keyboard-active');
             document.querySelector('.container').classList.remove('keyboard-active');
             keyboardState.isActive = false;
@@ -729,9 +728,12 @@
         }, 100);
       }
 
-      // Función para mantener el teclado activo si hay datos
+      // Función para mantener el teclado activo solo si hay un input enfocado
       function maintainKeyboardIfNeeded() {
-        if (checkUserData() && !keyboardState.isActive) {
+        const activeElement = document.activeElement;
+        const isInputActive = activeElement && activeElement.matches('input, textarea, select, [contenteditable="true"]');
+        
+        if (isInputActive && !keyboardState.isActive) {
           activateKeyboard();
         }
       }
@@ -785,10 +787,8 @@
         });
 
         input.addEventListener('blur', () => {
-          // Solo desactivar si no hay datos llenados
-          if (!checkUserData()) {
-            deactivateKeyboard();
-          }
+          // Siempre intentar desactivar cuando se pierde el foco
+          deactivateKeyboard();
         });
       });
 
@@ -797,15 +797,10 @@
         createAccountLink.addEventListener('click', (e) => {
           e.preventDefault();
           
-          // Si hay datos llenados, mantener el teclado activo
-          if (checkUserData()) {
-            maintainKeyboardIfNeeded();
-          } else {
-            // Si no hay datos, desactivar el teclado
-            document.body.classList.remove('keyboard-active');
-            document.querySelector('.container').classList.remove('keyboard-active');
-            keyboardState.isActive = false;
-          }
+          // Desactivar el teclado cuando se hace clic en crear cuenta
+          document.body.classList.remove('keyboard-active');
+          document.querySelector('.container').classList.remove('keyboard-active');
+          keyboardState.isActive = false;
         });
       }
 
@@ -815,8 +810,8 @@
           // Verificar que el formulario sea válido antes de procesar
           const form = document.getElementById('loginForm');
           if (form && form.checkValidity()) {
-            // Si el formulario es válido, asegurar que se procese
-            maintainKeyboardIfNeeded();
+            // El formulario se procesará normalmente
+            // No necesitamos mantener el teclado activo artificialmente
           }
         });
       }
@@ -845,10 +840,23 @@
         });
       });
 
-      // Verificar estado periódicamente
+      // Verificar estado periódicamente solo si hay un input activo
       setInterval(() => {
-        if (checkUserData() && !keyboardState.isActive) {
+        const activeElement = document.activeElement;
+        const isInputActive = activeElement && activeElement.matches('input, textarea, select, [contenteditable="true"]');
+        
+        if (isInputActive && !keyboardState.isActive) {
           maintainKeyboardIfNeeded();
+        } else if (!isInputActive && keyboardState.isActive) {
+          // Si no hay input activo pero el teclado está marcado como activo, desactivarlo
+          setTimeout(() => {
+            const stillActive = document.activeElement && document.activeElement.matches('input, textarea, select, [contenteditable="true"]');
+            if (!stillActive) {
+              document.body.classList.remove('keyboard-active');
+              document.querySelector('.container').classList.remove('keyboard-active');
+              keyboardState.isActive = false;
+            }
+          }, 200);
         }
       }, 500);
 
