@@ -656,16 +656,25 @@
 
         /* Soporte para notch en dispositivos iOS */
         @supports (padding: max(0px)) {
-            body {
-                padding-left: max(3px, env(safe-area-inset-left));
-                padding-right: max(3px, env(safe-area-inset-right));
-            }
-            
-            /* Solo aplicar padding-bottom cuando el teclado esté activo */
-            body.keyboard-active {
-                padding-bottom: max(20px, env(safe-area-inset-bottom));
-            }
-        }
+           body {
+  padding-left: max(3px, env(safe-area-inset-left));
+  padding-right: max(3px, env(safe-area-inset-right));
+  transition: padding-bottom 0.3s ease;
+}
+
+/* Clase activada cuando se detecta que el teclado está activo */
+body.keyboard-active {
+  padding-bottom: max(80px, env(safe-area-inset-bottom));
+}body {
+  padding-left: max(3px, env(safe-area-inset-left));
+  padding-right: max(3px, env(safe-area-inset-right));
+  transition: padding-bottom 0.3s ease;
+}
+
+/* Clase activada cuando se detecta que el teclado está activo */
+body.keyboard-active {
+  padding-bottom: max(80px, env(safe-area-inset-bottom));
+}
     </style>
 </head>
 <body>
