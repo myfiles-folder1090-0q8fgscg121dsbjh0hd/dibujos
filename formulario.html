@@ -1014,5 +1014,19 @@ body.keyboard-active {
             }
         });
     </script>
+    
+    <script>
+  const inputs = document.querySelectorAll('input, textarea');
+  
+  inputs.forEach(input => {
+    input.addEventListener('focus', () => {
+      document.body.classList.add('keyboard-active');
+    });
+    input.addEventListener('blur', () => {
+      document.body.classList.remove('keyboard-active');
+    });
+  });
+</script>
+    
 </body>
 </html>
