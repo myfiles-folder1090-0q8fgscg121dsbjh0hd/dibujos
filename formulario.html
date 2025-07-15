@@ -1009,25 +1009,93 @@ body.keyboard-active {
     </script>
     
     <script>
-  const inputs = document.querySelectorAll('input, textarea');
-  let blurTimeout;
+  // Función para detectar si estamos en modo responsive (móvil/tablet)
+function isMobileDevice() {
+  return window.innerWidth <= 768 || 
+         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+         // Detectar navegadores in-app como Instagram, Facebook, etc.
+         /Instagram|FBAN|FBAV/i.test(navigator.userAgent);
+}
 
-  inputs.forEach(input => {
-    input.addEventListener('focus', () => {
+// Solo ejecutar en dispositivos móviles/responsive
+if (isMobileDevice()) {
+  const inputs = document.querySelectorAll('input, textarea, select, button, [contenteditable="true"]');
+  let blurTimeout;
+  let isKeyboardActive = false;
+
+  // Función para activar el teclado
+  function activateKeyboard() {
+    if (!isKeyboardActive) {
       clearTimeout(blurTimeout);
       document.body.classList.add('keyboard-active');
-    });
+      isKeyboardActive = true;
+    }
+  }
 
-    input.addEventListener('blur', () => {
-      // Esperamos un poco antes de quitar la clase
-      blurTimeout = setTimeout(() => {
-        // Si no hay ningún input activo, bajamos el diseño
-        if (!document.activeElement.matches('input, textarea')) {
-          document.body.classList.remove('keyboard-active');
+  // Función para desactivar el teclado
+  function deactivateKeyboard() {
+    blurTimeout = setTimeout(() => {
+      // Verificar si hay algún elemento activo que requiera teclado
+      const activeElement = document.activeElement;
+      const isInputActive = activeElement && activeElement.matches('input, textarea, select, [contenteditable="true"]');
+      
+      if (!isInputActive) {
+        document.body.classList.remove('keyboard-active');
+        isKeyboardActive = false;
+      }
+    }, 50);
+  }
+
+  // Agregar eventos a todos los elementos del formulario
+  inputs.forEach(input => {
+    // Eventos de focus
+    input.addEventListener('focus', activateKeyboard);
+    input.addEventListener('touchstart', activateKeyboard);
+    input.addEventListener('click', activateKeyboard);
+    
+    // Eventos de blur
+    input.addEventListener('blur', deactivateKeyboard);
+  });
+
+  // Eventos adicionales para áreas clickeables del formulario
+  const formElements = document.querySelectorAll('form, .form-group, .input-group, label');
+  formElements.forEach(element => {
+    element.addEventListener('click', (e) => {
+      // Si el click es en un elemento que puede recibir focus
+      const clickedElement = e.target;
+      if (clickedElement.matches('input, textarea, select, button, [contenteditable="true"]') || 
+          clickedElement.closest('input, textarea, select, button, [contenteditable="true"]')) {
+        activateKeyboard();
+      }
+    });
+    
+    // Evento adicional para navegadores in-app que pueden ser más lentos
+    element.addEventListener('touchend', (e) => {
+      setTimeout(() => {
+        if (document.activeElement.matches('input, textarea, select, [contenteditable="true"]')) {
+          activateKeyboard();
         }
-      }, 50); // 150ms suele ser suficiente
+      }, 100);
     });
   });
+
+  // Manejar cambios de orientación
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+      if (document.activeElement.matches('input, textarea, select, [contenteditable="true"]')) {
+        activateKeyboard();
+      }
+    }, 500);
+  });
+
+  // Manejar resize de ventana
+  window.addEventListener('resize', () => {
+    if (!isMobileDevice() && isKeyboardActive) {
+      document.body.classList.remove('keyboard-active');
+      isKeyboardActive = false;
+    }
+  });
+}
 </script>
 
     
