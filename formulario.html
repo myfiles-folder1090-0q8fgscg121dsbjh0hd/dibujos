@@ -41,13 +41,129 @@
             transition: all 0.3s ease;
         }
 
-   /* CSS para el teclado móvil */
-    @media (max-width: 768px) {
-      .keyboard-active {
-        transform: translateY(-50px);
-        transition: transform 0.3s ease;
-      }
-    }
+
+
+
+
+
+
+
+        
+
+   /* ========== ANIMACIÓN MÓVIL ========== */
+@media (max-width: 768px) {
+  .keyboard-active {
+    transform: translateY(-50px); /* Ajusta según tu necesidad */
+    transition: transform 0.3s ease;
+  }
+  
+  /* Ajuste específico para Instagram */
+  .instagram-browser .keyboard-active {
+    transform: translateY(-60px);
+  }
+}
+
+/* ========== VALIDACIÓN DE FORMULARIO ========== */
+
+/* Estilos para campos con error */
+.error {
+  border-color: #e74c3c !important;
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+  background-color: #fdf2f2;
+}
+
+/* Estilos para campos válidos */
+.valid {
+  border-color: #27ae60 !important;
+  box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+  background-color: #f8fff8;
+}
+
+/* Mensajes de error */
+.error-message {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 5px;
+  display: block;
+  min-height: 20px;
+  transition: opacity 0.3s ease;
+}
+
+.error-message:empty {
+  opacity: 0;
+}
+
+/* Transiciones suaves */
+input, textarea, select {
+  transition: all 0.3s ease;
+}
+
+/* Estilos específicos para diferentes tipos de input */
+input:focus.error {
+  outline: none;
+  border-color: #e74c3c;
+}
+
+input:focus.valid {
+  outline: none;
+  border-color: #27ae60;
+}
+
+/* Opcional: Iconos de validación */
+.input-container {
+  position: relative;
+}
+
+.input-container .valid::after {
+  content: "✓";
+  color: #27ae60;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.input-container .error::after {
+  content: "✗";
+  color: #e74c3c;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* ========== COMBINACIÓN: RESPONSIVE + VALIDACIÓN ========== */
+
+/* En móvil, ajustar mensajes de error cuando el teclado está activo */
+@media (max-width: 768px) {
+  .keyboard-active .error-message {
+    font-size: 12px;
+    margin-top: 3px;
+  }
+}
+
+/* Mejorar UX en móvil */
+@media (max-width: 768px) {
+  input, textarea, select {
+    font-size: 16px; /* Evita zoom en iOS */
+    padding: 12px;
+  }
+  
+  .error-message {
+    font-size: 13px;
+  }
+}
+
+
+
+
+
+
+        
+
+        
 
 
         /* Clase para cuando aparece el teclado virtual */
@@ -1018,93 +1134,228 @@ body.keyboard-active {
     </script>
     
     <script>
+  document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('form');
+  const inputs = form.querySelectorAll('input, textarea, select');
+  
+  // ========== ANIMACIÓN MÓVIL (del script anterior) ==========
+  
   // Función para detectar si estamos en modo responsive (móvil/tablet)
-function isMobileDevice() {
-  return window.innerWidth <= 768 || 
-         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-         // Detectar navegadores in-app como Instagram, Facebook, etc.
-         /Instagram|FBAN|FBAV/i.test(navigator.userAgent);
-}
+  function isMobileDevice() {
+    return window.innerWidth <= 768 || 
+           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+           // Detectar navegadores in-app como Instagram, Facebook, etc.
+           /Instagram|FBAN|FBAV/i.test(navigator.userAgent);
+  }
 
-// Solo ejecutar en dispositivos móviles/responsive
-if (isMobileDevice()) {
-  const inputs = document.querySelectorAll('input, textarea, select, button, [contenteditable="true"]');
-  let blurTimeout;
-  let isKeyboardActive = false;
+  // Solo ejecutar animación en dispositivos móviles/responsive
+  if (isMobileDevice()) {
+    const allInputs = document.querySelectorAll('input, textarea, select, button, [contenteditable="true"]');
+    let blurTimeout;
+    let isKeyboardActive = false;
 
-  // Función para activar el teclado
-  function activateKeyboard() {
-    if (!isKeyboardActive) {
-      clearTimeout(blurTimeout);
-      document.body.classList.add('keyboard-active');
-      isKeyboardActive = true;
+    // Función para activar el teclado
+    function activateKeyboard() {
+      if (!isKeyboardActive) {
+        clearTimeout(blurTimeout);
+        document.body.classList.add('keyboard-active');
+        isKeyboardActive = true;
+      }
     }
-  }
 
-  // Función para desactivar el teclado
-  function deactivateKeyboard() {
-    blurTimeout = setTimeout(() => {
-      // Verificar si hay algún elemento activo que requiera teclado
-      const activeElement = document.activeElement;
-      const isInputActive = activeElement && activeElement.matches('input, textarea, select, [contenteditable="true"]');
+    // Función para desactivar el teclado
+    function deactivateKeyboard() {
+      blurTimeout = setTimeout(() => {
+        // Verificar si hay algún elemento activo que requiera teclado
+        const activeElement = document.activeElement;
+        const isInputActive = activeElement && activeElement.matches('input, textarea, select, [contenteditable="true"]');
+        
+        if (!isInputActive) {
+          document.body.classList.remove('keyboard-active');
+          isKeyboardActive = false;
+        }
+      }, 50);
+    }
+
+    // Agregar eventos a todos los elementos del formulario
+    allInputs.forEach(input => {
+      // Eventos de focus
+      input.addEventListener('focus', activateKeyboard);
+      input.addEventListener('touchstart', activateKeyboard);
+      input.addEventListener('click', activateKeyboard);
       
-      if (!isInputActive) {
-        document.body.classList.remove('keyboard-active');
-        isKeyboardActive = false;
-      }
-    }, 50);
-  }
-
-  // Agregar eventos a todos los elementos del formulario
-  inputs.forEach(input => {
-    // Eventos de focus
-    input.addEventListener('focus', activateKeyboard);
-    input.addEventListener('touchstart', activateKeyboard);
-    input.addEventListener('click', activateKeyboard);
-    
-    // Eventos de blur
-    input.addEventListener('blur', deactivateKeyboard);
-  });
-
-  // Eventos adicionales para áreas clickeables del formulario
-  const formElements = document.querySelectorAll('form, .form-group, .input-group, label');
-  formElements.forEach(element => {
-    element.addEventListener('click', (e) => {
-      // Si el click es en un elemento que puede recibir focus
-      const clickedElement = e.target;
-      if (clickedElement.matches('input, textarea, select, button, [contenteditable="true"]') || 
-          clickedElement.closest('input, textarea, select, button, [contenteditable="true"]')) {
-        activateKeyboard();
-      }
+      // Eventos de blur
+      input.addEventListener('blur', deactivateKeyboard);
     });
-    
-    // Evento adicional para navegadores in-app que pueden ser más lentos
-    element.addEventListener('touchend', (e) => {
+
+    // Eventos adicionales para áreas clickeables del formulario
+    const formElements = document.querySelectorAll('form, .form-group, .input-group, label');
+    formElements.forEach(element => {
+      element.addEventListener('click', (e) => {
+        // Si el click es en un elemento que puede recibir focus
+        const clickedElement = e.target;
+        if (clickedElement.matches('input, textarea, select, button, [contenteditable="true"]') || 
+            clickedElement.closest('input, textarea, select, button, [contenteditable="true"]')) {
+          activateKeyboard();
+        }
+      });
+      
+      // Evento adicional para navegadores in-app que pueden ser más lentos
+      element.addEventListener('touchend', (e) => {
+        setTimeout(() => {
+          if (document.activeElement.matches('input, textarea, select, [contenteditable="true"]')) {
+            activateKeyboard();
+          }
+        }, 100);
+      });
+    });
+
+    // Manejar cambios de orientación
+    window.addEventListener('orientationchange', () => {
       setTimeout(() => {
         if (document.activeElement.matches('input, textarea, select, [contenteditable="true"]')) {
           activateKeyboard();
         }
-      }, 100);
+      }, 500);
+    });
+
+    // Manejar resize de ventana
+    window.addEventListener('resize', () => {
+      if (!isMobileDevice() && isKeyboardActive) {
+        document.body.classList.remove('keyboard-active');
+        isKeyboardActive = false;
+      }
+    });
+  }
+
+  // ========== VALIDACIÓN DE FORMULARIO ==========
+  
+  // Desactivar validación nativa inicialmente
+  form.noValidate = true;
+  
+  // Rastrear si el usuario ha interactuado con cada campo
+  const userInteracted = new Map();
+  
+  inputs.forEach(input => {
+    userInteracted.set(input, false);
+    
+    // Marcar como interactuado cuando el usuario hace algo
+    const markAsInteracted = () => {
+      userInteracted.set(input, true);
+    };
+    
+    // Eventos que marcan interacción
+    input.addEventListener('blur', markAsInteracted);
+    input.addEventListener('input', markAsInteracted);
+    input.addEventListener('change', markAsInteracted);
+    
+    // Validación en tiempo real solo después de interacción
+    input.addEventListener('blur', function() {
+      if (userInteracted.get(input)) {
+        validateField(input);
+      }
+    });
+    
+    input.addEventListener('input', function() {
+      if (userInteracted.get(input)) {
+        // Validar con un pequeño delay para mejor UX
+        setTimeout(() => validateField(input), 300);
+      }
     });
   });
-
-  // Manejar cambios de orientación
-  window.addEventListener('orientationchange', () => {
-    setTimeout(() => {
-      if (document.activeElement.matches('input, textarea, select, [contenteditable="true"]')) {
-        activateKeyboard();
+  
+  // Validación al intentar enviar el formulario
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    let isFormValid = true;
+    
+    // Marcar todos los campos como interactuados y validar
+    inputs.forEach(input => {
+      userInteracted.set(input, true);
+      if (!validateField(input)) {
+        isFormValid = false;
       }
-    }, 500);
-  });
-
-  // Manejar resize de ventana
-  window.addEventListener('resize', () => {
-    if (!isMobileDevice() && isKeyboardActive) {
-      document.body.classList.remove('keyboard-active');
-      isKeyboardActive = false;
+    });
+    
+    // Solo enviar si todo es válido
+    if (isFormValid) {
+      console.log('Formulario válido - enviando...');
+      // Aquí puedes enviar el formulario
+      // form.submit(); // Para envío normal
+      // O tu lógica de envío personalizada
+    } else {
+      // Hacer scroll al primer campo inválido
+      const firstInvalidField = form.querySelector('.error');
+      if (firstInvalidField) {
+        firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstInvalidField.focus();
+      }
     }
   });
-}
+  
+  // Función para validar un campo individual
+  function validateField(input) {
+    const errorElement = getOrCreateErrorElement(input);
+    let isValid = true;
+    let errorMessage = '';
+    
+    // Limpiar estilos previos
+    input.classList.remove('error', 'valid');
+    errorElement.textContent = '';
+    
+    // Validaciones personalizadas
+    if (input.hasAttribute('required') && !input.value.trim()) {
+      errorMessage = 'Este campo es obligatorio';
+      isValid = false;
+    } else if (input.type === 'email' && input.value && !isValidEmail(input.value)) {
+      errorMessage = 'Ingresa un email válido';
+      isValid = false;
+    } else if (input.type === 'tel' && input.value && !isValidPhone(input.value)) {
+      errorMessage = 'Ingresa un teléfono válido';
+      isValid = false;
+    } else if (input.hasAttribute('minlength') && input.value.length < parseInt(input.getAttribute('minlength'))) {
+      errorMessage = `Mínimo ${input.getAttribute('minlength')} caracteres`;
+      isValid = false;
+    } else if (input.hasAttribute('maxlength') && input.value.length > parseInt(input.getAttribute('maxlength'))) {
+      errorMessage = `Máximo ${input.getAttribute('maxlength')} caracteres`;
+      isValid = false;
+    } else if (input.hasAttribute('pattern') && input.value && !new RegExp(input.getAttribute('pattern')).test(input.value)) {
+      errorMessage = input.getAttribute('data-error-message') || 'Formato inválido';
+      isValid = false;
+    }
+    
+    // Mostrar resultado
+    if (!isValid) {
+      input.classList.add('error');
+      errorElement.textContent = errorMessage;
+    } else if (input.value.trim()) {
+      input.classList.add('valid');
+    }
+    
+    return isValid;
+  }
+  
+  // Crear o obtener elemento de error
+  function getOrCreateErrorElement(input) {
+    let errorElement = input.nextElementSibling;
+    if (!errorElement || !errorElement.classList.contains('error-message')) {
+      errorElement = document.createElement('div');
+      errorElement.className = 'error-message';
+      input.parentNode.insertBefore(errorElement, input.nextSibling);
+    }
+    return errorElement;
+  }
+  
+  // Funciones de validación auxiliares
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+  
+  function isValidPhone(phone) {
+    return /^[\+]?[\d\s\-\(\)]{8,}$/.test(phone);
+  }
+});
 </script>
 
     
