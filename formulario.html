@@ -1012,11 +1012,15 @@ body.keyboard-active {
   const inputs = document.querySelectorAll('input, textarea');
   let blurTimeout;
 
-  inputs.forEach(input => {
-    input.addEventListener('focus', () => {
-      clearTimeout(blurTimeout);
-      document.body.classList.add('keyboard-active');
-    });
+  // Función simple para detectar si es móvil
+  const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    inputs.forEach(input => {
+      input.addEventListener('focus', () => {
+        clearTimeout(blurTimeout);
+        document.body.classList.add('keyboard-active');
+      });
 
     input.addEventListener('blur', () => {
       // Esperamos un poco antes de quitar la clase
