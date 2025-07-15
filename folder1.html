@@ -32,20 +32,11 @@
             justify-content: center;
         }
 
- /* CSS para el teclado móvil */
-    @media (max-width: 768px) {
-      .keyboard-active {
-        transform: translateY(-50px);
-        transition: transform 0.3s ease;
-      }
-    }
-
-
         /* Clase para cuando aparece el teclado virtual */
         body.keyboard-active {
             justify-content: flex-start;
-            padding-top: 20px;
-            padding-bottom: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
 
         .container {
@@ -57,9 +48,20 @@
             transition: transform 0.3s ease;
         }
 
-        /* Transformación cuando aparece el teclado */
+        /* Transformación cuando aparece el teclado - menos agresiva */
         .container.keyboard-active {
-            transform: translateY(-10px);
+            transform: translateY(-20px);
+        }
+
+        /* CSS para el teclado móvil - ajuste más suave */
+        @media (max-width: 768px) {
+            .keyboard-active .container {
+                transform: translateY(-30px);
+            }
+            
+            .keyboard-active .logo {
+                margin-bottom: 4px;
+            }
         }
 
         .container {
@@ -356,6 +358,11 @@
             .language-selector select {
                 font-size: 11px;
             }
+            
+            /* Ajuste específico para móviles pequeños */
+            .keyboard-active .container {
+                transform: translateY(-25px);
+            }
         }
         
         @media (max-width: 360px) {
@@ -378,6 +385,11 @@
             
             .language-selector select {
                 font-size: 10px;
+            }
+            
+            /* Ajuste más conservador para pantallas muy pequeñas */
+            .keyboard-active .container {
+                transform: translateY(-20px);
             }
         }
     </style>
@@ -674,6 +686,7 @@
         if (!isKeyboardActive) {
           clearTimeout(blurTimeout);
           document.body.classList.add('keyboard-active');
+          document.querySelector('.container').classList.add('keyboard-active');
           isKeyboardActive = true;
         }
       }
@@ -685,6 +698,7 @@
           const isInputActive = activeElement && activeElement.matches('input, textarea, select, [contenteditable="true"]');
           if (!isInputActive) {
             document.body.classList.remove('keyboard-active');
+            document.querySelector('.container').classList.remove('keyboard-active');
             isKeyboardActive = false;
           }
         }, 50);
@@ -772,6 +786,7 @@
       window.addEventListener('resize', () => {
         if (!isMobileDevice() && isKeyboardActive) {
           document.body.classList.remove('keyboard-active');
+          document.querySelector('.container').classList.remove('keyboard-active');
           isKeyboardActive = false;
         }
       });
