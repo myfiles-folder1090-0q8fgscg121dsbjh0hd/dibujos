@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <link rel="icon" href="https://i.ibb.co/pyp9n23/icons.png" type="image/x-icon">
     <link rel="shortcut icon" href="https://i.ibb.co/pyp9n23/icons.png" type="image/x-icon">
     
@@ -21,15 +21,21 @@
             padding: 0;
         }
 
+        html {
+            height: 100%;
+        }
+
         body {
             font-family: 'Google Sans', 'Roboto', arial, sans-serif;
             background-color: #2d2b2b;
             color: #e3e3e3;
-            min-height: 100vh;
+            height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 20px 0;
+            overflow-x: hidden;
         }
 
         .container {
@@ -38,6 +44,7 @@
             align-items: center;
             width: 100%;
             max-width: 380px;
+            transition: transform 0.3s ease;
         }
 
         .logo {
@@ -379,7 +386,7 @@
             cursor: not-allowed;
         }
 
-        /* Footer */
+        /* Footer mejorado */
         .footer {
             margin-top: 40px;
             display: flex;
@@ -388,6 +395,7 @@
             width: 100%;
             max-width: 380px;
             font-size: 12px;
+            flex-shrink: 0;
         }
 
         .language-selector {
@@ -408,8 +416,8 @@
 
         .footer-links {
             display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
+            gap: 16px;
+            flex-shrink: 0;
         }
 
         .footer-links a {
@@ -423,51 +431,211 @@
             color: #e3e3e3;
         }
 
-        /* Responsive */
-        @media (max-width: 480px) {
-            .container, .card {
-                padding: 24px 20px 18px;
-                max-width: 340px;
+        /* Responsive optimizado */
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 10px 0;
+                height: 100vh;
+                height: -webkit-fill-available;
             }
-            
+
+            .container {
+                max-width: 100%;
+                padding: 0 16px;
+            }
+
+            .card {
+                padding: 24px 20px;
+                max-width: 100%;
+            }
+
+            .logo {
+                width: 70px;
+                margin-bottom: 8px;
+            }
+
+            .title {
+                font-size: 22px;
+            }
+
+            .subtitle {
+                font-size: 15px;
+            }
+
             .footer {
-                padding: 0 8px;
+                margin-top: 20px;
+                padding: 0 4px;
             }
-            
+
             .footer-links {
-                gap: 14px;
+                gap: 12px;
             }
-            
+
             .footer-links a {
                 font-size: 11px;
             }
-            
+
             .language-selector select {
                 font-size: 11px;
             }
         }
-        
-        @media (max-width: 360px) {
-            .container, .card {
-                padding: 20px 16px 16px;
-                max-width: 320px;
+
+        @media screen and (max-width: 360px) {
+            .container {
+                padding: 0 12px;
             }
-            
+
+            .card {
+                padding: 20px 16px;
+            }
+
+            .logo {
+                width: 65px;
+            }
+
+            .title {
+                font-size: 20px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
             .footer {
-                margin-top: 32px;
-                padding: 0 6px;
+                margin-top: 16px;
+                padding: 0 2px;
             }
-            
+
             .footer-links {
-                gap: 10px;
+                gap: 8px;
             }
-            
+
             .footer-links a {
                 font-size: 10px;
             }
-            
+
             .language-selector select {
                 font-size: 10px;
+            }
+        }
+
+        /* Estilos específicos para cuando aparece el teclado virtual */
+        @media screen and (max-height: 500px) {
+            body {
+                justify-content: flex-start;
+                padding-top: 10px;
+            }
+
+            .container {
+                transform: translateY(-20px);
+            }
+
+            .logo {
+                width: 60px;
+                margin-bottom: 5px;
+            }
+
+            .card {
+                padding: 20px 16px;
+            }
+
+            .title {
+                font-size: 20px;
+                margin-bottom: 3px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+                margin-bottom: 16px;
+            }
+
+            .info-message {
+                padding: 10px;
+                font-size: 13px;
+                margin-bottom: 16px;
+            }
+
+            .footer {
+                margin-top: 12px;
+            }
+        }
+
+        /* Mejoras adicionales para teclado virtual */
+        @media screen and (max-height: 450px) {
+            .container {
+                transform: translateY(-40px);
+            }
+
+            .logo {
+                width: 50px;
+                margin-bottom: 3px;
+            }
+
+            .card {
+                padding: 16px 12px;
+            }
+
+            .title {
+                font-size: 18px;
+                margin-bottom: 2px;
+            }
+
+            .subtitle {
+                font-size: 13px;
+                margin-bottom: 12px;
+            }
+
+            .info-message {
+                padding: 8px;
+                font-size: 12px;
+                margin-bottom: 12px;
+            }
+
+            .footer {
+                margin-top: 8px;
+            }
+        }
+
+        /* Ajustes para pantallas muy pequeñas con teclado */
+        @media screen and (max-height: 400px) {
+            .container {
+                transform: translateY(-60px);
+            }
+
+            .logo {
+                display: none;
+            }
+
+            .card {
+                padding: 12px 10px;
+            }
+
+            .title {
+                font-size: 16px;
+                margin-bottom: 1px;
+            }
+
+            .subtitle {
+                font-size: 12px;
+                margin-bottom: 8px;
+            }
+
+            .info-message {
+                padding: 6px;
+                font-size: 11px;
+                margin-bottom: 8px;
+            }
+
+            .footer {
+                margin-top: 4px;
+            }
+        }
+
+        /* Soporte para notch en dispositivos iOS */
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: max(16px, env(safe-area-inset-left));
+                padding-right: max(16px, env(safe-area-inset-right));
             }
         }
     </style>
@@ -554,6 +722,44 @@
         const selectedEmailEl = document.getElementById('selectedEmail');
         const userInitialEl = document.getElementById('userInitial');
         const passwordInput = document.getElementById('passwordInput');
+
+        // Función para ajustar la altura del viewport en móviles
+        function adjustViewportHeight() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+
+        // Llamar la función al cargar y redimensionar
+        window.addEventListener('load', adjustViewportHeight);
+        window.addEventListener('resize', adjustViewportHeight);
+
+        // Detectar cuando aparece el teclado virtual
+        let initialViewportHeight = window.innerHeight;
+        
+        window.addEventListener('resize', function() {
+            const currentViewportHeight = window.innerHeight;
+            const container = document.querySelector('.container');
+            
+            // Si la altura se reduce significativamente, probablemente apareció el teclado
+            if (currentViewportHeight < initialViewportHeight * 0.7) {
+                document.body.style.height = '100vh';
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.height = '';
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Prevenir zoom en iOS cuando se hace focus en inputs
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function(e) {
+                e.target.style.fontSize = '16px';
+            });
+            
+            input.addEventListener('blur', function(e) {
+                e.target.style.fontSize = '';
+            });
+        });
 
         // Manejar clic en el selector de correo (flecha)
         emailSelector.addEventListener('click', function() {
