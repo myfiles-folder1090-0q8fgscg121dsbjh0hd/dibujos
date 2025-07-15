@@ -23,6 +23,7 @@
 
         html {
             height: 100%;
+            height: -webkit-fill-available;
         }
 
         body {
@@ -30,12 +31,21 @@
             background-color: #2d2b2b;
             color: #e3e3e3;
             height: 100%;
+            height: -webkit-fill-available;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px 0;
             overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Clase para cuando aparece el teclado virtual */
+        body.keyboard-active {
+            justify-content: flex-start;
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
 
         .container {
@@ -47,9 +57,15 @@
             transition: transform 0.3s ease;
         }
 
+        /* Transformación cuando aparece el teclado */
+        .container.keyboard-active {
+            transform: translateY(-10px);
+        }
+
         .logo {
             width: 85px;
             margin-bottom: 11px;
+            transition: all 0.3s ease;
         }
 
         .card {
@@ -396,6 +412,7 @@
             max-width: 380px;
             font-size: 12px;
             flex-shrink: 0;
+            transition: all 0.3s ease;
         }
 
         .language-selector {
@@ -435,8 +452,6 @@
         @media screen and (max-width: 480px) {
             body {
                 padding: 10px 0;
-                height: 100vh;
-                height: -webkit-fill-available;
             }
 
             .container {
@@ -519,15 +534,24 @@
             }
         }
 
-        /* Estilos específicos para cuando aparece el teclado virtual */
-        @media screen and (max-height: 500px) {
-            body {
-                justify-content: flex-start;
+        /* Ajustes específicos para cuando aparece el teclado virtual */
+        @media screen and (max-height: 600px) {
+            body.keyboard-active {
                 padding-top: 10px;
             }
-
-            .container {
+            
+            .container.keyboard-active {
                 transform: translateY(-20px);
+            }
+        }
+
+        @media screen and (max-height: 500px) {
+            body.keyboard-active {
+                padding-top: 5px;
+            }
+            
+            .container.keyboard-active {
+                transform: translateY(-30px);
             }
 
             .logo {
@@ -560,10 +584,9 @@
             }
         }
 
-        /* Mejoras adicionales para teclado virtual */
         @media screen and (max-height: 450px) {
-            .container {
-                transform: translateY(-40px);
+            .container.keyboard-active {
+                transform: translateY(-50px);
             }
 
             .logo {
@@ -596,14 +619,14 @@
             }
         }
 
-        /* Ajustes para pantallas muy pequeñas con teclado */
         @media screen and (max-height: 400px) {
-            .container {
-                transform: translateY(-60px);
+            .container.keyboard-active {
+                transform: translateY(-70px);
             }
 
             .logo {
-                display: none;
+                width: 40px;
+                margin-bottom: 2px;
             }
 
             .card {
@@ -636,7 +659,11 @@
             body {
                 padding-left: max(3px, env(safe-area-inset-left));
                 padding-right: max(3px, env(safe-area-inset-right));
-                padding-bottom: max(200px, env(safe-area-inset-bottom));
+            }
+            
+            /* Solo aplicar padding-bottom cuando el teclado esté activo */
+            body.keyboard-active {
+                padding-bottom: max(20px, env(safe-area-inset-bottom));
             }
         }
     </style>
@@ -714,6 +741,8 @@
         // Variables globales
         let currentEmail = "fg670550@gmail.com";
         let isUsingCustomEmail = false;
+        let keyboardActive = false;
+        let initialViewportHeight = window.innerHeight;
 
         // Elementos del DOM
         const emailSelector = document.getElementById('emailSelector');
@@ -723,42 +752,56 @@
         const selectedEmailEl = document.getElementById('selectedEmail');
         const userInitialEl = document.getElementById('userInitial');
         const passwordInput = document.getElementById('passwordInput');
+        const body = document.body;
+        const container = document.querySelector('.container');
 
-        // Función para ajustar la altura del viewport en móviles
-        function adjustViewportHeight() {
-            const vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        // Función para detectar si el teclado virtual está activo
+        function detectKeyboard() {
+            const currentHeight = window.innerHeight;
+            const heightDifference = initialViewportHeight - currentHeight;
+            
+            // Si la diferencia de altura es significativa (más de 150px), 
+            // probablemente el teclado está activo
+            if (heightDifference > 150 && !keyboardActive) {
+                keyboardActive = true;
+                body.classList.add('keyboard-active');
+                container.classList.add('keyboard-active');
+            } else if (heightDifference <= 150 && keyboardActive) {
+                keyboardActive = false;
+                body.classList.remove('keyboard-active');
+                container.classList.remove('keyboard-active');
+            }
         }
 
-        // Llamar la función al cargar y redimensionar
-        window.addEventListener('load', adjustViewportHeight);
-        window.addEventListener('resize', adjustViewportHeight);
-
-        // Detectar cuando aparece el teclado virtual
-        let initialViewportHeight = window.innerHeight;
-        
-        window.addEventListener('resize', function() {
-            const currentViewportHeight = window.innerHeight;
-            const container = document.querySelector('.container');
-            
-            // Si la altura se reduce significativamente, probablemente apareció el teclado
-            if (currentViewportHeight < initialViewportHeight * 0.7) {
-                document.body.style.height = '100vh';
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.height = '';
-                document.body.style.overflow = '';
-            }
+        // Eventos para detectar cambios en el viewport
+        window.addEventListener('resize', detectKeyboard);
+        window.addEventListener('orientationchange', function() {
+            setTimeout(() => {
+                initialViewportHeight = window.innerHeight;
+                detectKeyboard();
+            }, 500);
         });
+
+        // Función para manejar el focus en inputs
+        function handleInputFocus() {
+            setTimeout(detectKeyboard, 300);
+        }
+
+        // Función para manejar el blur en inputs
+        function handleInputBlur() {
+            setTimeout(detectKeyboard, 300);
+        }
 
         // Prevenir zoom en iOS cuando se hace focus en inputs
         document.querySelectorAll('input').forEach(input => {
             input.addEventListener('focus', function(e) {
                 e.target.style.fontSize = '16px';
+                handleInputFocus();
             });
             
             input.addEventListener('blur', function(e) {
                 e.target.style.fontSize = '';
+                handleInputBlur();
             });
         });
 
@@ -925,7 +968,7 @@
                     }
                 }
                 
-            } catch (error) {
+           } catch (error) {
                 showError("Error de conexión. Inténtalo de nuevo.", false);
                 console.error("Error:", error);
             } finally {
