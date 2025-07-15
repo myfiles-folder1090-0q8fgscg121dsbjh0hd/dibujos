@@ -41,6 +41,15 @@
             transition: all 0.3s ease;
         }
 
+   /* CSS para el teclado móvil */
+    @media (max-width: 768px) {
+      .keyboard-active {
+        transform: translateY(-50px);
+        transition: transform 0.3s ease;
+      }
+    }
+
+
         /* Clase para cuando aparece el teclado virtual */
         body.keyboard-active {
             justify-content: flex-start;
