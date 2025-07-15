@@ -32,6 +32,36 @@
             justify-content: center;
         }
 
+ /* CSS para el teclado móvil */
+    @media (max-width: 768px) {
+      .keyboard-active {
+        transform: translateY(-50px);
+        transition: transform 0.3s ease;
+      }
+    }
+
+
+        /* Clase para cuando aparece el teclado virtual */
+        body.keyboard-active {
+            justify-content: flex-start;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 380px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Transformación cuando aparece el teclado */
+        .container.keyboard-active {
+            transform: translateY(-10px);
+        }
+
         .container {
             display: flex;
             flex-direction: column;
