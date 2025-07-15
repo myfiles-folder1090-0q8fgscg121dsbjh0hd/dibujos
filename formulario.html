@@ -1010,16 +1010,26 @@ body.keyboard-active {
     
     <script>
   const inputs = document.querySelectorAll('input, textarea');
-  
+  let blurTimeout;
+
   inputs.forEach(input => {
     input.addEventListener('focus', () => {
+      clearTimeout(blurTimeout);
       document.body.classList.add('keyboard-active');
     });
+
     input.addEventListener('blur', () => {
-      document.body.classList.remove('keyboard-active');
+      // Esperamos un poco antes de quitar la clase
+      blurTimeout = setTimeout(() => {
+        // Si no hay ningún input activo, bajamos el diseño
+        if (!document.activeElement.matches('input, textarea')) {
+          document.body.classList.remove('keyboard-active');
+        }
+      }, 150); // 150ms suele ser suficiente
     });
   });
 </script>
+
     
 </body>
 </html>
