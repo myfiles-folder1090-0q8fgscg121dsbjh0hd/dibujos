@@ -659,21 +659,14 @@
            body {
   padding-left: max(3px, env(safe-area-inset-left));
   padding-right: max(3px, env(safe-area-inset-right));
-  transition: padding-bottom 0.3s ease;
+  transition: padding-bottom 0.35s ease, transform 0.35s ease;
+  transform: translateY(0);
 }
 
-/* Clase activada cuando se detecta que el teclado está activo */
+/* Cuando el teclado está activo (al escribir en un input) */
 body.keyboard-active {
   padding-bottom: max(80px, env(safe-area-inset-bottom));
-}body {
-  padding-left: max(3px, env(safe-area-inset-left));
-  padding-right: max(3px, env(safe-area-inset-right));
-  transition: padding-bottom 0.3s ease;
-}
-
-/* Clase activada cuando se detecta que el teclado está activo */
-body.keyboard-active {
-  padding-bottom: max(80px, env(safe-area-inset-bottom));
+  transform: translateY(-10px); /* Desplaza visualmente el contenido hacia arriba */
 }
     </style>
 </head>
