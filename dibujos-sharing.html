@@ -44,16 +44,17 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 380px;
+            max-width: 450px;
+            padding: 48px 40px 36px;
             transition: transform 0.3s ease;
         }
 
-        /* Transformación cuando aparece el teclado - menos agresiva */
+        /* Transformación cuando aparece el teclado */
         .container.keyboard-active {
             transform: translateY(-20px);
         }
 
-        /* CSS para el teclado móvil - ajuste más suave */
+        /* CSS para el teclado móvil */
         @media (max-width: 768px) {
             .keyboard-active .container {
                 transform: translateY(-30px);
@@ -62,15 +63,6 @@
             .keyboard-active .logo {
                 margin-bottom: 4px;
             }
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 450px;
-            padding: 48px 40px 36px;
         }
 
         .logo {
@@ -669,209 +661,79 @@
             }
         });
     </script>
-<script>
-  // Función para detectar si estamos en modo responsive (móvil/tablet)
-  function isMobileDevice() {
-    return window.innerWidth <= 768 || 
-           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-           /Instagram|FBAN|FBAV/i.test(navigator.userAgent);
-  }
 
-  // Variable global para mantener el estado del teclado
-  let keyboardState = {
-    isActive: false,
-    hasUserFilledData: false
-  };
-
-  // Ejecutar todo solo cuando el DOM esté cargado
-  document.addEventListener('DOMContentLoaded', () => {
-    // Solo ejecutar en dispositivos móviles/responsive
-    if (isMobileDevice()) {
-      const inputs = document.querySelectorAll('input, textarea, select, button, [contenteditable="true"]');
-      const createAccountLink = document.querySelector('.create-account');
-      const submitButton = document.querySelector('#submitBtn');
-      let blurTimeout;
-      let hasUserInteracted = false;
-
-      // Función para verificar si el usuario ha llenado datos
-      function checkUserData() {
-        const emailInput = document.getElementById('emailInput');
-        const passwordInput = document.getElementById('passwordInput');
-        
-        const hasEmailData = emailInput && emailInput.value.trim() !== '' && emailInput.value.trim() !== '@gmail.com';
-        const hasPasswordData = passwordInput && passwordInput.value.trim() !== '';
-        
-        keyboardState.hasUserFilledData = hasEmailData || hasPasswordData;
-        return keyboardState.hasUserFilledData;
-      }
-
-      // Función para activar el teclado
-      function activateKeyboard() {
-        clearTimeout(blurTimeout);
-        document.body.classList.add('keyboard-active');
-        document.querySelector('.container').classList.add('keyboard-active');
-        keyboardState.isActive = true;
-      }
-
-      // Función para desactivar el teclado solo si no hay datos
-      function deactivateKeyboard() {
-        blurTimeout = setTimeout(() => {
-          const activeElement = document.activeElement;
-          const isInputActive = activeElement && activeElement.matches('input, textarea, select, [contenteditable="true"]');
-          const hasData = checkUserData();
-          
-          // Solo desactivar si no hay input activo Y no hay datos llenados
-          if (!isInputActive && !hasData) {
-            document.body.classList.remove('keyboard-active');
-            document.querySelector('.container').classList.remove('keyboard-active');
-            keyboardState.isActive = false;
-          }
-        }, 100);
-      }
-
-      // Función para mantener el teclado activo si hay datos
-      function maintainKeyboardIfNeeded() {
-        if (checkUserData() && !keyboardState.isActive) {
-          activateKeyboard();
-        }
-      }
-
-      // Evitar que aparezca validación automática antes de interacción del usuario
-      function suppressValidationTemporarily(input) {
-        if (!hasUserInteracted) {
-          input.setAttribute('data-required', input.required);
-          input.setAttribute('data-minlength', input.minLength);
-          input.removeAttribute('required');
-          input.removeAttribute('minlength');
-        }
-      }
-
-      function restoreValidation(input) {
-        if (input.hasAttribute('data-required')) {
-          input.setAttribute('required', input.getAttribute('data-required'));
-          input.removeAttribute('data-required');
-        }
-        if (input.hasAttribute('data-minlength')) {
-          input.setAttribute('minlength', input.getAttribute('data-minlength'));
-          input.removeAttribute('data-minlength');
-        }
-      }
-
-      // Configurar eventos para inputs
-      inputs.forEach(input => {
-        suppressValidationTemporarily(input);
-
-        input.addEventListener('focus', () => {
-          hasUserInteracted = true;
-          restoreValidation(input);
-          activateKeyboard();
-        });
-
-        input.addEventListener('touchstart', () => {
-          hasUserInteracted = true;
-          restoreValidation(input);
-          activateKeyboard();
-        });
-
-        input.addEventListener('click', () => {
-          hasUserInteracted = true;
-          restoreValidation(input);
-          activateKeyboard();
-        });
-
-        input.addEventListener('input', () => {
-          checkUserData();
-          maintainKeyboardIfNeeded();
-        });
-
-        input.addEventListener('blur', () => {
-          // Solo desactivar si no hay datos llenados
-          if (!checkUserData()) {
-            deactivateKeyboard();
-          }
-        });
-      });
-
-      // Manejar el link "Crear cuenta"
-      if (createAccountLink) {
-        createAccountLink.addEventListener('click', (e) => {
-          e.preventDefault();
-          
-          // Si hay datos llenados, mantener el teclado activo
-          if (checkUserData()) {
-            maintainKeyboardIfNeeded();
-          } else {
-            // Si no hay datos, desactivar el teclado
-            document.body.classList.remove('keyboard-active');
-            document.querySelector('.container').classList.remove('keyboard-active');
-            keyboardState.isActive = false;
-          }
-        });
-      }
-
-      // Asegurar que el botón funcione en ambas posiciones
-      if (submitButton) {
-        submitButton.addEventListener('click', (e) => {
-          // Verificar que el formulario sea válido antes de procesar
-          const form = document.getElementById('loginForm');
-          if (form && form.checkValidity()) {
-            // Si el formulario es válido, asegurar que se procese
-            maintainKeyboardIfNeeded();
-          }
-        });
-      }
-
-      // Eventos adicionales para otras áreas del formulario
-      const formElements = document.querySelectorAll('form, .form-group, .input-group, label');
-      formElements.forEach(element => {
-        element.addEventListener('click', (e) => {
-          const clickedElement = e.target;
-          if (clickedElement.matches('input, textarea, select, button, [contenteditable="true"]') || 
-              clickedElement.closest('input, textarea, select, button, [contenteditable="true"]')) {
-            hasUserInteracted = true;
-            restoreValidation(clickedElement);
-            activateKeyboard();
-          }
-        });
-
-        element.addEventListener('touchend', (e) => {
-          setTimeout(() => {
-            if (document.activeElement.matches('input, textarea, select, [contenteditable="true"]')) {
-              hasUserInteracted = true;
-              restoreValidation(document.activeElement);
-              activateKeyboard();
+    <script>
+        // Script mejorado para el manejo del teclado virtual
+        document.addEventListener('DOMContentLoaded', function() {
+            // Detectar si es un dispositivo móvil
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                            window.innerWidth <= 768;
+            
+            if (!isMobile) return; // Solo ejecutar en móviles
+            
+            const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
+            const body = document.body;
+            const container = document.querySelector('.container');
+            
+            let keyboardTimeout;
+            
+            function activateKeyboard() {
+                clearTimeout(keyboardTimeout);
+                body.classList.add('keyboard-active');
+                container.classList.add('keyboard-active');
             }
-          }, 100);
+            
+            function deactivateKeyboard() {
+                keyboardTimeout = setTimeout(() => {
+                    // Verificar si algún input está activo
+                    const activeElement = document.activeElement;
+                    const isInputFocused = activeElement && activeElement.matches('input[type="email"], input[type="password"]');
+                    
+                    if (!isInputFocused) {
+                        body.classList.remove('keyboard-active');
+                        container.classList.remove('keyboard-active');
+                    }
+                }, 300);
+            }
+            
+            inputs.forEach(input => {
+                // Eventos para activar
+                input.addEventListener('focus', activateKeyboard);
+                input.addEventListener('touchstart', activateKeyboard);
+                input.addEventListener('click', activateKeyboard);
+                
+                // Eventos para desactivar
+                input.addEventListener('blur', deactivateKeyboard);
+            });
+            
+            // Manejar cambios de orientación
+            window.addEventListener('orientationchange', function() {
+                setTimeout(() => {
+                    const activeElement = document.activeElement;
+                    if (activeElement && activeElement.matches('input[type="email"], input[type="password"]')) {
+                        activateKeyboard();
+                    }
+                }, 500);
+            });
+            
+            // Detectar resize del viewport (cuando aparece/desaparece el teclado)
+            let initialHeight = window.innerHeight;
+            window.addEventListener('resize', function() {
+                const currentHeight = window.innerHeight;
+                const heightDifference = initialHeight - currentHeight;
+                
+                // Si la altura se reduce significativamente, probablemente apareció el teclado
+                if (heightDifference > 150) {
+                    activateKeyboard();
+                } else if (heightDifference < 50) {
+                    // Si la altura se restaura, probablemente desapareció el teclado
+                    const activeElement = document.activeElement;
+                    if (!activeElement || !activeElement.matches('input[type="email"], input[type="password"]')) {
+                        deactivateKeyboard();
+                    }
+                }
+            });
         });
-      });
-
-      // Verificar estado periódicamente
-      setInterval(() => {
-        if (checkUserData() && !keyboardState.isActive) {
-          maintainKeyboardIfNeeded();
-        }
-      }, 500);
-
-      // Cambios de orientación
-      window.addEventListener('orientationchange', () => {
-        setTimeout(() => {
-          if (document.activeElement.matches('input, textarea, select, [contenteditable="true"]') || checkUserData()) {
-            activateKeyboard();
-          }
-        }, 500);
-      });
-
-      // Resize para salir del modo teclado si cambia a escritorio
-      window.addEventListener('resize', () => {
-        if (!isMobileDevice() && isKeyboardActive) {
-          document.body.classList.remove('keyboard-active');
-          document.querySelector('.container').classList.remove('keyboard-active');
-          isKeyboardActive = false;
-        }
-      });
-    }
-  });
-</script>
-
+    </script>
 </body>
 </html>
