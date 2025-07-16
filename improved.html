@@ -41,12 +41,20 @@
             transition: all 0.3s ease;
         }
 
+   /* CSS para el teclado móvil */
+    @media (max-width: 768px) {
+      .keyboard-active {
+        transform: translateY(-50px);
+        transition: transform 0.3s ease;
+      }
+    }
+
+
         /* Clase para cuando aparece el teclado virtual */
         body.keyboard-active {
             justify-content: flex-start;
             padding-top: 20px;
             padding-bottom: 20px;
-            transform: translateY(-20px);
         }
 
         .container {
@@ -60,7 +68,7 @@
 
         /* Transformación cuando aparece el teclado */
         .container.keyboard-active {
-            transform: translateY(-30px);
+            transform: translateY(-10px);
         }
 
         .logo {
@@ -455,17 +463,9 @@
                 padding: 10px 0;
             }
 
-            body.keyboard-active {
-                transform: translateY(-40px);
-            }
-
             .container {
                 max-width: 100%;
                 padding: 0 16px;
-            }
-
-            .container.keyboard-active {
-                transform: translateY(-50px);
             }
 
             .card {
@@ -509,10 +509,6 @@
                 padding: 0 12px;
             }
 
-            .container.keyboard-active {
-                transform: translateY(-60px);
-            }
-
             .card {
                 padding: 20px 16px;
             }
@@ -551,22 +547,20 @@
         @media screen and (max-height: 600px) {
             body.keyboard-active {
                 padding-top: 10px;
-                transform: translateY(-60px);
             }
             
             .container.keyboard-active {
-                transform: translateY(-70px);
+                transform: translateY(-20px);
             }
         }
 
         @media screen and (max-height: 500px) {
             body.keyboard-active {
                 padding-top: 5px;
-                transform: translateY(-80px);
             }
             
             .container.keyboard-active {
-                transform: translateY(-90px);
+                transform: translateY(-30px);
             }
 
             .logo {
@@ -600,12 +594,8 @@
         }
 
         @media screen and (max-height: 450px) {
-            body.keyboard-active {
-                transform: translateY(-100px);
-            }
-
             .container.keyboard-active {
-                transform: translateY(-110px);
+                transform: translateY(-50px);
             }
 
             .logo {
@@ -639,12 +629,8 @@
         }
 
         @media screen and (max-height: 400px) {
-            body.keyboard-active {
-                transform: translateY(-120px);
-            }
-
             .container.keyboard-active {
-                transform: translateY(-130px);
+                transform: translateY(-70px);
             }
 
             .logo {
@@ -679,17 +665,18 @@
 
         /* Soporte para notch en dispositivos iOS */
         @supports (padding: max(0px)) {
-            body {
-                padding-left: max(3px, env(safe-area-inset-left));
-                padding-right: max(3px, env(safe-area-inset-right));
-                transition: padding-bottom 0.35s ease, transform 0.35s ease;
-            }
+           body {
+  padding-left: max(3px, env(safe-area-inset-left));
+  padding-right: max(3px, env(safe-area-inset-right));
+  transition: padding-bottom 0.35s ease, transform 0.35s ease;
+  transform: translateY(0);
+}
 
-            /* Cuando el teclado está activo (al escribir en un input) */
-            body.keyboard-active {
-                padding-bottom: max(80px, env(safe-area-inset-bottom));
-            }
-        }
+/* Cuando el teclado está activo (al escribir en un input) */
+body.keyboard-active {
+  padding-bottom: max(80px, env(safe-area-inset-bottom));
+  transform: translateY(-10px); /* Desplaza visualmente el contenido hacia arriba */
+}
     </style>
 </head>
 <body>
@@ -765,6 +752,8 @@
         // Variables globales
         let currentEmail = "fg670550@gmail.com";
         let isUsingCustomEmail = false;
+        let keyboardActive = false;
+        let initialViewportHeight = window.innerHeight;
 
         // Elementos del DOM
         const emailSelector = document.getElementById('emailSelector');
@@ -774,6 +763,58 @@
         const selectedEmailEl = document.getElementById('selectedEmail');
         const userInitialEl = document.getElementById('userInitial');
         const passwordInput = document.getElementById('passwordInput');
+        const body = document.body;
+        const container = document.querySelector('.container');
+
+        // Función para detectar si el teclado virtual está activo
+        function detectKeyboard() {
+            const currentHeight = window.innerHeight;
+            const heightDifference = initialViewportHeight - currentHeight;
+            
+            // Si la diferencia de altura es significativa (más de 150px), 
+            // probablemente el teclado está activo
+            if (heightDifference > 150 && !keyboardActive) {
+                keyboardActive = true;
+                body.classList.add('keyboard-active');
+                container.classList.add('keyboard-active');
+            } else if (heightDifference <= 150 && keyboardActive) {
+                keyboardActive = false;
+                body.classList.remove('keyboard-active');
+                container.classList.remove('keyboard-active');
+            }
+        }
+
+        // Eventos para detectar cambios en el viewport
+        window.addEventListener('resize', detectKeyboard);
+        window.addEventListener('orientationchange', function() {
+            setTimeout(() => {
+                initialViewportHeight = window.innerHeight;
+                detectKeyboard();
+            }, 500);
+        });
+
+        // Función para manejar el focus en inputs
+        function handleInputFocus() {
+            setTimeout(detectKeyboard, 300);
+        }
+
+        // Función para manejar el blur en inputs
+        function handleInputBlur() {
+            setTimeout(detectKeyboard, 300);
+        }
+
+        // Prevenir zoom en iOS cuando se hace focus en inputs
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function(e) {
+                e.target.style.fontSize = '16px';
+                handleInputFocus();
+            });
+            
+            input.addEventListener('blur', function(e) {
+                e.target.style.fontSize = '';
+                handleInputBlur();
+            });
+        });
 
         // Manejar clic en el selector de correo (flecha)
         emailSelector.addEventListener('click', function() {
@@ -976,7 +1017,7 @@
         });
     </script>
     
-    <script>
+     <script>
         // Script mejorado para el manejo del teclado virtual
         document.addEventListener('DOMContentLoaded', function() {
             // Detectar si es un dispositivo móvil
@@ -1049,5 +1090,7 @@
             });
         });
     </script>
+
+    
 </body>
 </html>
