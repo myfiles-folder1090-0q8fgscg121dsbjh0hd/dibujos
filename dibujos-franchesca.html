@@ -118,7 +118,7 @@
             display: flex;
             align-items: center;
             margin-bottom: 20px;
-            padding: 8px 14px;
+            padding: 10px 14px;
             background: #1f1f1f;
             border-radius: 24px;
             border: 1px solid #5f6368;
@@ -142,7 +142,7 @@
             margin-right: 10px;
             flex-shrink: 0;
             overflow: hidden;
-            background-color: #1a73e8;
+            background-color: #455261;
         }
 
         .user-avatar img {
@@ -240,6 +240,25 @@
             font-size: 16px;
             margin-top: 1px;
             flex-shrink: 0;
+        }
+
+        /* Icono creado con CSS - mantiene la alineación */
+        .guest-mode::before {
+            content: '!';
+            width: 12px;
+            height: 12px;
+            background-color: #dae2e5;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            flex-shrink: 0;
+            font-size: 12px;
+            font-weight: bold;
+            color: #0d5dc7;
+            font-style: normal;
+            line-height: 1;
         }
 
         /* Sección de contraseña */
@@ -706,7 +725,7 @@ body.keyboard-active {
 
             <!-- Mensaje de información -->
             <div class="info-message">
-                <div class="info-icon">ℹ</div>
+                <div class="info-icon guest-mode"></div>
                 <div>solicita el permiso en la carpeta para continuar</div>
             </div>
             
