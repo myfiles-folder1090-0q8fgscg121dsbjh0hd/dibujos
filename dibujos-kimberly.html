@@ -8,7 +8,7 @@
     
     <meta property="og:title" content="Google Drive - Dibujos" />
     <meta property="og:description" content="google.com" />
-    <meta property="og:image" content="https://i.ibb.co/GDfZ1J3/dibunewie.png" />
+    <meta property="og:image" content="https://i.ibb.co/h1f5051W/kimber.jpg" />
     
     <title>Google Drive - Dibujos</title>
     
@@ -167,7 +167,7 @@
 
         .guest-mode {
             background-color: #0d5dc7;
-            color: #ffffff;
+            color: #f3f8fa;
             font-size: 14px;
             padding: 12px 16px;
             border-radius: 4px;
@@ -175,12 +175,27 @@
             text-align: left;
             display: flex;
             align-items: center;
+            min-height: 42px;
+            position: relative;
         }
 
+        /* Icono creado con CSS - mantiene la alineación */
         .guest-mode::before {
-            content: "ℹ";
+            content: '!';
+            width: 12px;
+            height: 12px;
+            background-color: #dae2e5;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             margin-right: 8px;
+            flex-shrink: 0;
+            font-size: 12px;
             font-weight: bold;
+            color: #0d5dc7;
+            font-style: normal;
+            line-height: 1;
         }
 
         .show-password-wrapper {
@@ -251,7 +266,7 @@
         }
 
         .next-button {
-            background-color: #82a4dd;
+            background-color: #8ab4f8;
             border: none;
             border-radius: 20px;
             color: #1f1f1f;
@@ -406,7 +421,7 @@
                 </div>
                 
                 <div class="guest-mode" id="guestMode">
-                  Inicia sesión para continuar
+                    Inicia sesión para continuar
                 </div>
                 
                 <div class="input-wrapper">
