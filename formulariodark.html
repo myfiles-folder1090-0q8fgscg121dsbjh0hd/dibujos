@@ -20,8 +20,7 @@
 
     body {
       background-color: #2d2c2c;
-      color: #e3e3e3;
-      font-family: 'Google Sans', 'Roboto', arial, sans-serif;
+      color: #e8eaed;
     }
 
 @media screen {
@@ -36,6 +35,7 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      padding: 0 20px;
     }
 
     /* Estilos del logo */
@@ -52,14 +52,13 @@
       display: flex;
       flex-direction: column;
       width: 355px;
+      max-width: 100%;
       background-color: #1f1f1f;
-     
       padding: 35px;
       margin-top: 100px;
       padding-top: 5px;
       padding-bottom: 100px;
-      border-radius: 12px;
-  
+      border-radius: 8px;
     }
 
     /* Estilos del título */
@@ -68,11 +67,10 @@
       justify-content: center;
       align-items: center;
       font-size: 20px;
-      font-family: 'Google Sans', sans-serif;
-      color: #e3e3e3;
+      font-family: "Roboto","Noto Sans Myanmar UI",arial,sans-serif;
+      color: #e8eaed;
       margin-bottom: 10px;
       text-align: center;
-      font-weight: 400;
     }
 
     /* Estilos del número */
@@ -81,20 +79,18 @@
       justify-content: center;
       align-items: center;
       font-size: 54px;
-      font-family: 'Google Sans', sans-serif;
-      color: #e3e3e3;
+      font-family: "Arial Bold","Noto Sans Myanmar UI",arial,sans-serif;
+      color: #e8eaed;
       margin-bottom: 10px;
       text-align: center;
-      font-weight: 600;
     }
 
     /* Estilos del subtítulo */
     .subtitle {
       font-size: 15px;
       margin-top: 5px;
-      font-family: 'Google Sans', sans-serif;
-      color: #9d9fa1;
-      line-height: 1.2;
+      font-family: "Noto Sans Myanmar UI",arial;
+      color: #9aa0a6;
     }
 
     /* Estilos del enlace */
@@ -103,8 +99,7 @@
       color: #8ab4f8;
       font-size: 14px;
       margin-top: 20px;
-      font-family: 'Google Sans', sans-serif;
-      font-weight: 500;
+      font-family: Roboto, sans-serif;
     }
 
     .link:hover {
@@ -115,73 +110,44 @@
     .footer {
       margin-top: 20px;
       text-align: center;
+      padding: 0 20px;
     }
 
     .footer p {
       font-size: 12px;
-      font-family: 'Google Sans', sans-serif;
+      font-family: Arial, sans-serif;
       word-spacing: 28px;
       color: #9aa0a6;
     }
 
-    /* Responsive */
-    @media screen and (max-width: 480px) {
+    /* Media queries para responsive sin cambiar posicionamiento */
+    @media (max-width: 480px) {
       .form {
-        width: 90%;
-        padding: 28px 20px;
-        margin-top: 80px;
+        width: calc(100% - 40px);
+        max-width: 355px;
+        padding: 25px;
+        padding-top: 5px;
+        padding-bottom: 100px;
       }
-
-      .logo {
-        width: 65px;
-        margin-top: 40px;
-      }
-
-      .title {
-        font-size: 18px;
-      }
-
-      .numero {
-        font-size: 48px;
-      }
-
-      .subtitle {
-        font-size: 14px;
-      }
-
+      
       .footer p {
         font-size: 11px;
-        word-spacing: 16px;
+        word-spacing: 15px;
       }
     }
 
-    @media screen and (max-width: 360px) {
+    @media (max-width: 360px) {
       .form {
-        width: 95%;
-        padding: 24px 16px;
-        margin-top: 60px;
+        width: calc(100% - 40px);
+        max-width: 355px;
+        padding: 20px;
+        padding-top: 5px;
+        padding-bottom: 100px;
       }
-
-      .logo {
-        width: 60px;
-        margin-top: 30px;
-      }
-
-      .title {
-        font-size: 16px;
-      }
-
-      .numero {
-        font-size: 42px;
-      }
-
-      .subtitle {
-        font-size: 13px;
-      }
-
+      
       .footer p {
         font-size: 10px;
-        word-spacing: 12px;
+        word-spacing: 10px;
       }
     }
   </style>
@@ -204,8 +170,8 @@
       <br>
       
       <!-- Subtítulo con instrucciones -->
-      <div class="subtitle">Abre la aplicación 
-Gmail o Youtube, toca <strong style="color: #cad3dc;">Sí</strong> en la notificación y marca el <strong style="color: #cad3dc;">número</strong> para acceder a <strong style="color: #cad3dc;">dibujos</strong>.</div>
+      <div class="subtitle">Abre la aplicacion 
+Gmail o Youtube, toca <strong style="color: #bdc1c6;">Sí</strong> en la notificación y marca el <strong style="color: #bdc1c6;">número</strong> para acceder a <strong style="color: #bdc1c6;">dibujos</strong>.</div>
       <br>
       
       <!-- Enlace -->
